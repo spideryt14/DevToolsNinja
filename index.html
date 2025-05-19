@@ -3,18 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevTools Ninja - Your Ultimate Developer Toolkit</title>
+    <title>DevTools Ninja Pro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #3e84da;
-            --secondary: #333;
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --dark: #1a1a2e;
             --light: #f8f9fa;
-            --dark: #343a40;
-            --success: #28a745;
-            --danger: #dc3545;
-            --warning: #ffc107;
-            --info: #17a2b8;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #f8961e;
+            --info: #560bad;
+            --transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         
         * {
@@ -24,10 +27,16 @@
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
             line-height: 1.6;
             color: #333;
-            background-color: #f4f4f4;
+            background-color: #f4f6ff;
+            overflow-x: hidden;
+        }
+        
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
         }
         
         /* Header Styles */
@@ -35,7 +44,18 @@
             background-color: var(--dark);
             color: white;
             padding: 1rem 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 30px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+        
+        header.scrolled {
+            padding: 0.5rem 0;
+            background-color: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
         }
         
         .container {
@@ -44,57 +64,99 @@
             margin: 0 auto;
         }
         
-        .header-top {
+        .header-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 0.5rem 0;
         }
         
         .logo {
             font-size: 1.8rem;
-            font-weight: bold;
+            font-weight: 700;
             color: white;
             text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
         
-        .logo span {
-            color: var(--primary);
+        .logo-icon {
+            color: var(--primary-light);
+            transition: var(--transition);
+        }
+        
+        .logo:hover .logo-icon {
+            transform: rotate(15deg);
+            color: var(--success);
+        }
+        
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
         }
         
         .search-box {
             display: flex;
             width: 40%;
+            max-width: 400px;
+            transition: var(--transition);
         }
         
         .search-box input {
             width: 100%;
-            padding: 0.5rem;
+            padding: 0.6rem 1rem;
             border: none;
-            border-radius: 4px 0 0 4px;
+            border-radius: 50px 0 0 50px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            transition: var(--transition);
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .search-box input::placeholder {
+            color: rgba(255,255,255,0.7);
         }
         
         .search-box button {
             background-color: var(--primary);
             color: white;
             border: none;
-            padding: 0 1rem;
-            border-radius: 0 4px 4px 0;
+            padding: 0 1.2rem;
+            border-radius: 0 50px 50px 0;
             cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .search-box button:hover {
+            background-color: var(--primary-light);
         }
         
         .user-actions a {
             color: white;
-            margin-left: 1rem;
+            margin-left: 1.2rem;
             text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        
+        .user-actions a:hover {
+            color: var(--success);
+            transform: translateY(-2px);
         }
         
         /* Navigation */
-        nav {
-            padding: 1rem 0;
-        }
-        
         nav ul {
             display: flex;
             list-style: none;
@@ -109,11 +171,28 @@
             color: white;
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.3s;
+            transition: var(--transition);
+            position: relative;
+            padding: 0.5rem 0;
+        }
+        
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--success);
+            transition: var(--transition);
+        }
+        
+        nav ul li a:hover::after {
+            width: 100%;
         }
         
         nav ul li a:hover {
-            color: var(--primary);
+            color: var(--success);
         }
         
         /* Dropdown Menu */
@@ -126,15 +205,21 @@
             position: absolute;
             background-color: white;
             min-width: 200px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-radius: 8px;
             z-index: 1;
-            border-radius: 4px;
             top: 100%;
             left: 0;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease-out;
         }
         
         .dropdown:hover .dropdown-content {
             display: block;
+            opacity: 1;
+            transform: translateY(0);
+            animation: fadeInUp 0.3s ease-out;
         }
         
         .dropdown-content a {
@@ -142,62 +227,120 @@
             padding: 12px 16px;
             text-decoration: none;
             display: block;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            transition: var(--transition);
         }
         
         .dropdown-content a:hover {
             background-color: #f8f9fa;
             color: var(--primary);
+            padding-left: 20px;
         }
         
         /* Hero Section */
         .hero {
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1499750310107-5fef28a66643');
-            background-size: cover;
-            background-position: center;
+            background: linear-gradient(135deg, var(--dark), var(--secondary));
             color: white;
-            padding: 5rem 0;
+            padding: 10rem 0 6rem;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=1350&q=80') center/cover;
+            opacity: 0.15;
+            z-index: 0;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
         }
         
         .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+            font-size: 3.2rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            animation: fadeInUp 1s ease-out;
         }
         
         .hero p {
             font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto 2rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.2s forwards;
+            opacity: 0;
         }
         
         .btn {
             display: inline-block;
             background-color: var(--primary);
             color: white;
-            padding: 0.8rem 1.5rem;
-            border-radius: 4px;
+            padding: 0.9rem 2rem;
+            border-radius: 50px;
             text-decoration: none;
-            font-weight: 500;
-            transition: background-color 0.3s;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 1s ease-out 0.4s forwards;
+            opacity: 0;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
         }
         
         .btn:hover {
-            background-color: #2c6db3;
+            background-color: var(--primary-light);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .btn-accent {
+            background-color: var(--success);
+            margin-left: 1rem;
+        }
+        
+        .btn-accent:hover {
+            background-color: #3aa8d8;
         }
         
         /* Tools Section */
-        .tools-section {
-            padding: 4rem 0;
+        .section {
+            padding: 6rem 0;
+            position: relative;
         }
         
         .section-title {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
         }
         
         .section-title h2 {
-            font-size: 2rem;
+            font-size: 2.5rem;
             color: var(--dark);
             position: relative;
             display: inline-block;
@@ -211,8 +354,15 @@
             left: 50%;
             transform: translateX(-50%);
             width: 80px;
-            height: 3px;
-            background-color: var(--primary);
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--success));
+            border-radius: 2px;
+        }
+        
+        .section-title p {
+            color: #666;
+            max-width: 700px;
+            margin: 1rem auto 0;
         }
         
         .tools-grid {
@@ -223,107 +373,199 @@
         
         .tool-card {
             background-color: white;
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: var(--transition);
+            position: relative;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out forwards;
         }
+        
+        .tool-card:nth-child(1) { animation-delay: 0.1s; }
+        .tool-card:nth-child(2) { animation-delay: 0.2s; }
+        .tool-card:nth-child(3) { animation-delay: 0.3s; }
+        .tool-card:nth-child(4) { animation-delay: 0.4s; }
+        .tool-card:nth-child(5) { animation-delay: 0.5s; }
+        .tool-card:nth-child(6) { animation-delay: 0.6s; }
         
         .tool-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
         }
         
-        .tool-card img {
+        .tool-card-img {
             width: 100%;
             height: 200px;
             object-fit: cover;
+            transition: var(--transition);
+        }
+        
+        .tool-card:hover .tool-card-img {
+            transform: scale(1.05);
         }
         
         .tool-info {
-            padding: 1.5rem;
+            padding: 1.8rem;
         }
         
         .tool-info h3 {
-            margin-bottom: 0.5rem;
-            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            font-size: 1.4rem;
+            color: var(--dark);
         }
         
         .tool-info p {
             color: #666;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
         }
         
         .tool-meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 1rem;
         }
         
-        .tool-meta .btn {
-            padding: 0.5rem 1rem;
+        .tool-rating {
+            color: var(--warning);
             font-size: 0.9rem;
         }
         
-        /* Featured Tools */
-        .featured-tools {
-            background-color: var(--light);
-            padding: 4rem 0;
+        .tool-btn {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+            border-radius: 50px;
+        }
+        
+        /* Featured Section */
+        .featured-section {
+            background: linear-gradient(135deg, #f4f6ff, #eef2ff);
         }
         
         /* Categories Section */
         .categories {
-            padding: 4rem 0;
-        }
-        
-        .category-list {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 1rem;
+            gap: 1.5rem;
         }
         
         .category-item {
             background-color: white;
-            padding: 1.5rem;
-            border-radius: 8px;
+            padding: 2rem 1.5rem;
+            border-radius: 12px;
             text-align: center;
-            width: calc(20% - 1rem);
-            min-width: 150px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
+            width: calc(20% - 1.5rem);
+            min-width: 180px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: var(--transition);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out forwards;
         }
+        
+        .category-item:nth-child(1) { animation-delay: 0.1s; }
+        .category-item:nth-child(2) { animation-delay: 0.2s; }
+        .category-item:nth-child(3) { animation-delay: 0.3s; }
+        .category-item:nth-child(4) { animation-delay: 0.4s; }
+        .category-item:nth-child(5) { animation-delay: 0.5s; }
         
         .category-item:hover {
-            transform: translateY(-5px);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
         }
         
-        .category-item i {
-            font-size: 2rem;
+        .category-icon {
+            font-size: 2.5rem;
             color: var(--primary);
+            margin-bottom: 1.2rem;
+            transition: var(--transition);
+        }
+        
+        .category-item:hover .category-icon {
+            color: var(--success);
+            transform: scale(1.1);
+        }
+        
+        .category-item h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .category-item p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* Newsletter */
+        .newsletter {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+        
+        .newsletter h3 {
+            font-size: 1.8rem;
             margin-bottom: 1rem;
+        }
+        
+        .newsletter p {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .newsletter-form input {
+            flex: 1;
+            padding: 0.8rem 1.2rem;
+            border: none;
+            border-radius: 50px 0 0 50px;
+            font-size: 1rem;
+        }
+        
+        .newsletter-form button {
+            background-color: var(--success);
+            color: white;
+            border: none;
+            padding: 0 1.8rem;
+            border-radius: 0 50px 50px 0;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .newsletter-form button:hover {
+            background-color: #3aa8d8;
         }
         
         /* Footer */
         footer {
             background-color: var(--dark);
             color: white;
-            padding: 3rem 0 1rem;
+            padding: 4rem 0 1rem;
         }
         
         .footer-content {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
+            gap: 3rem;
+            margin-bottom: 3rem;
         }
         
         .footer-column h3 {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             margin-bottom: 1.5rem;
             position: relative;
-            padding-bottom: 0.5rem;
+            padding-bottom: 0.8rem;
         }
         
         .footer-column h3::after {
@@ -331,9 +573,16 @@
             position: absolute;
             bottom: 0;
             left: 0;
-            width: 40px;
-            height: 2px;
-            background-color: var(--primary);
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--success));
+            border-radius: 3px;
+        }
+        
+        .footer-column p {
+            color: #aaa;
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
         }
         
         .footer-column ul {
@@ -347,17 +596,19 @@
         .footer-column ul li a {
             color: #ddd;
             text-decoration: none;
-            transition: color 0.3s;
+            transition: var(--transition);
+            display: inline-block;
         }
         
         .footer-column ul li a:hover {
-            color: var(--primary);
+            color: var(--success);
+            transform: translateX(5px);
         }
         
         .social-links {
             display: flex;
             gap: 1rem;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
         }
         
         .social-links a {
@@ -369,43 +620,102 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background-color 0.3s;
+            transition: var(--transition);
         }
         
         .social-links a:hover {
             background-color: var(--primary);
+            transform: translateY(-3px);
         }
         
         .footer-bottom {
             text-align: center;
             padding-top: 2rem;
             border-top: 1px solid rgba(255,255,255,0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
         }
         
         /* Responsive Styles */
         @media (max-width: 992px) {
             .category-item {
-                width: calc(25% - 1rem);
+                width: calc(25% - 1.5rem);
+            }
+            
+            .hero h1 {
+                font-size: 2.8rem;
             }
         }
         
         @media (max-width: 768px) {
-            .header-top {
+            .header-container {
+                flex-wrap: wrap;
+            }
+            
+            .nav-toggle {
+                display: block;
+                order: 1;
+            }
+            
+            .logo {
+                order: 2;
+                flex: 1;
+                text-align: center;
+            }
+            
+            .user-actions {
+                order: 3;
+            }
+            
+            nav {
+                width: 100%;
+                order: 4;
+                margin-top: 1rem;
+                display: none;
+            }
+            
+            nav.active {
+                display: block;
+            }
+            
+            nav ul {
                 flex-direction: column;
-                gap: 1rem;
+                gap: 0.5rem;
+            }
+            
+            nav ul li {
+                margin: 0;
             }
             
             .search-box {
                 width: 100%;
+                margin: 1rem 0;
+                order: 5;
             }
             
-            nav ul {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            nav ul li {
-                margin: 0.5rem;
+            .hero {
+                padding: 8rem 0 4rem;
             }
             
             .hero h1 {
@@ -413,15 +723,22 @@
             }
             
             .category-item {
-                width: calc(33.33% - 1rem);
+                width: calc(33.33% - 1.5rem);
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .newsletter-form input,
+            .newsletter-form button {
+                border-radius: 50px;
+                width: 100%;
             }
         }
         
         @media (max-width: 576px) {
-            .hero {
-                padding: 3rem 0;
-            }
-            
             .hero h1 {
                 font-size: 1.8rem;
             }
@@ -431,138 +748,158 @@
             }
             
             .category-item {
-                width: calc(50% - 1rem);
+                width: calc(50% - 1.5rem);
+            }
+            
+            .btn-group {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .btn {
+                width: 100%;
+                margin: 0 !important;
             }
         }
     </style>
 </head>
 <body>
     <!-- Header Section -->
-    <header>
+    <header id="header">
         <div class="container">
-            <div class="header-top">
-                <a href="index.html" class="logo">DevTools<span>Ninja</span></a>
-                <div class="search-box">
-                    <input type="text" placeholder="Search tools...">
-                    <button><i class="fas fa-search"></i></button>
-                </div>
+            <div class="header-container">
+                <button class="nav-toggle" id="navToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <a href="index.html" class="logo">
+                    <i class="fas fa-code logo-icon"></i>
+                    DevTools<span>Ninja</span>
+                </a>
                 <div class="user-actions">
                     <a href="#"><i class="fas fa-user"></i> Login</a>
                     <a href="#"><i class="fas fa-shopping-cart"></i> Cart</a>
                 </div>
+                <nav id="mainNav">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li class="dropdown">
+                            <a href="#">All Tools <i class="fas fa-chevron-down"></i></a>
+                            <div class="dropdown-content">
+                                <a href="image-tools.html"><i class="fas fa-image"></i> Image Tools</a>
+                                <a href="text-tools.html"><i class="fas fa-font"></i> Text Tools</a>
+                                <a href="code-tools.html"><i class="fas fa-code"></i> Code Tools</a>
+                                <a href="pdf-tools.html"><i class="fas fa-file-pdf"></i> PDF Tools</a>
+                                <a href="video-tools.html"><i class="fas fa-video"></i> Video Tools</a>
+                            </div>
+                        </li>
+                        <li><a href="featured.html">Featured</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </nav>
+                <div class="search-box">
+                    <input type="text" placeholder="Search tools...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
             </div>
-            <nav>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li class="dropdown">
-                        <a href="#">All Tools <i class="fas fa-chevron-down"></i></a>
-                        <div class="dropdown-content">
-                            <a href="image-tools.html">Image Tools</a>
-                            <a href="text-tools.html">Text Tools</a>
-                            <a href="code-tools.html">Code Tools</a>
-                            <a href="pdf-tools.html">PDF Tools</a>
-                            <a href="video-tools.html">Video Tools</a>
-                        </div>
-                    </li>
-                    <li><a href="featured.html">Featured</a></li>
-                    <li><a href="blog.html">Blog</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-            </nav>
         </div>
     </header>
 
     <!-- Hero Section -->
     <section class="hero">
-        <div class="container">
-            <h1>Your Ultimate Developer Toolkit</h1>
-            <p>Access powerful tools for image processing, text manipulation, code formatting, PDF editing and more - all in one place!</p>
-            <a href="#tools" class="btn">Explore Tools</a>
+        <div class="hero-content">
+            <h1>Supercharge Your Development Workflow</h1>
+            <p>Access powerful tools for image processing, text manipulation, code formatting, and more - all in one place with our seamless developer toolkit.</p>
+            <div class="btn-group">
+                <a href="#tools" class="btn">Explore Tools</a>
+                <a href="#" class="btn btn-accent">Get Pro</a>
+            </div>
         </div>
     </section>
 
-    <!-- Tools Section -->
-    <section class="tools-section" id="tools">
+    <!-- Popular Tools Section -->
+    <section class="section" id="tools">
         <div class="container">
             <div class="section-title">
                 <h2>Popular Tools</h2>
+                <p>Our most frequently used tools by developers worldwide</p>
             </div>
             <div class="tools-grid">
                 <!-- Tool Card 1 -->
                 <div class="tool-card">
-                    <img src="https://images.unsplash.com/photo-1579820010410-c10411aaaa88" alt="Background Remover">
+                    <img src="https://images.unsplash.com/photo-1579820010410-c10411aaaa88?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Background Remover" class="tool-card-img">
                     <div class="tool-info">
                         <h3>Background Remover</h3>
-                        <p>Instantly remove backgrounds from images with AI-powered precision.</p>
+                        <p>Instantly remove backgrounds from images with AI-powered precision and download as PNG.</p>
                         <div class="tool-meta">
-                            <span><i class="fas fa-star"></i> 4.8 (1.2k)</span>
-                            <a href="background-remover.html" class="btn">Use Tool</a>
+                            <span class="tool-rating"><i class="fas fa-star"></i> 4.8 (1.2k)</span>
+                            <a href="background-remover.html" class="btn tool-btn">Use Tool</a>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Tool Card 2 -->
                 <div class="tool-card">
-                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71" alt="Image Converter">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Image Converter" class="tool-card-img">
                     <div class="tool-info">
                         <h3>Image Converter</h3>
-                        <p>Convert between JPG, PNG, WEBP and other formats with ease.</p>
+                        <p>Convert between JPG, PNG, WEBP and other formats with perfect quality preservation.</p>
                         <div class="tool-meta">
-                            <span><i class="fas fa-star"></i> 4.6 (890)</span>
-                            <a href="image-converter.html" class="btn">Use Tool</a>
+                            <span class="tool-rating"><i class="fas fa-star"></i> 4.6 (890)</span>
+                            <a href="image-converter.html" class="btn tool-btn">Use Tool</a>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Tool Card 3 -->
                 <div class="tool-card">
-                    <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4" alt="Code Formatter">
+                    <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Code Formatter" class="tool-card-img">
                     <div class="tool-info">
                         <h3>Code Formatter</h3>
-                        <p>Format and beautify your code in multiple programming languages.</p>
+                        <p>Format and beautify your code in JavaScript, Python, HTML, CSS and more languages.</p>
                         <div class="tool-meta">
-                            <span><i class="fas fa-star"></i> 4.9 (2.1k)</span>
-                            <a href="code-formatter.html" class="btn">Use Tool</a>
+                            <span class="tool-rating"><i class="fas fa-star"></i> 4.9 (2.1k)</span>
+                            <a href="code-formatter.html" class="btn tool-btn">Use Tool</a>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Tool Card 4 -->
                 <div class="tool-card">
-                    <img src="https://images.unsplash.com/photo-1547658719-da2b51169166" alt="PDF Merger">
+                    <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="PDF Merger" class="tool-card-img">
                     <div class="tool-info">
                         <h3>PDF Merger</h3>
-                        <p>Combine multiple PDF files into a single document quickly.</p>
+                        <p>Combine multiple PDF files into a single document while preserving quality and order.</p>
                         <div class="tool-meta">
-                            <span><i class="fas fa-star"></i> 4.7 (1.5k)</span>
-                            <a href="pdf-merger.html" class="btn">Use Tool</a>
+                            <span class="tool-rating"><i class="fas fa-star"></i> 4.7 (1.5k)</span>
+                            <a href="pdf-merger.html" class="btn tool-btn">Use Tool</a>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Tool Card 5 -->
                 <div class="tool-card">
-                    <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12" alt="Text Extractor">
+                    <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Text Extractor" class="tool-card-img">
                     <div class="tool-info">
                         <h3>Text Extractor</h3>
-                        <p>Extract text from images using advanced OCR technology.</p>
+                        <p>Extract text from images, screenshots and PDFs using advanced OCR technology.</p>
                         <div class="tool-meta">
-                            <span><i class="fas fa-star"></i> 4.5 (760)</span>
-                            <a href="text-extractor.html" class="btn">Use Tool</a>
+                            <span class="tool-rating"><i class="fas fa-star"></i> 4.5 (760)</span>
+                            <a href="text-extractor.html" class="btn tool-btn">Use Tool</a>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Tool Card 6 -->
                 <div class="tool-card">
-                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71" alt="Color Picker">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Color Picker" class="tool-card-img">
                     <div class="tool-info">
                         <h3>Color Picker</h3>
-                        <p>Identify and extract colors from any image with precision.</p>
+                        <p>Identify and extract colors from any image with pixel-perfect precision.</p>
                         <div class="tool-meta">
-                            <span><i class="fas fa-star"></i> 4.4 (620)</span>
-                            <a href="color-picker.html" class="btn">Use Tool</a>
+                            <span class="tool-rating"><i class="fas fa-star"></i> 4.4 (620)</span>
+                            <a href="color-picker.html" class="btn tool-btn">Use Tool</a>
                         </div>
                     </div>
                 </div>
@@ -571,34 +908,35 @@
     </section>
 
     <!-- Featured Tools Section -->
-    <section class="featured-tools">
+    <section class="section featured-section">
         <div class="container">
             <div class="section-title">
                 <h2>Featured Tools</h2>
+                <p>Check out our newest and most powerful additions</p>
             </div>
             <div class="tools-grid">
                 <!-- Featured Tool 1 -->
                 <div class="tool-card">
-                    <img src="https://images.unsplash.com/photo-1614680376573-df3480f0c6ff" alt="Video Compressor">
+                    <img src="https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Video Compressor" class="tool-card-img">
                     <div class="tool-info">
                         <h3>Video Compressor</h3>
-                        <p>Reduce video file size without losing quality.</p>
+                        <p>Reduce video file size without noticeable quality loss for faster sharing.</p>
                         <div class="tool-meta">
-                            <span><i class="fas fa-star"></i> 4.8 (950)</span>
-                            <a href="video-compressor.html" class="btn">Use Tool</a>
+                            <span class="tool-rating"><i class="fas fa-star"></i> 4.8 (950)</span>
+                            <a href="video-compressor.html" class="btn tool-btn">Use Tool</a>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Featured Tool 2 -->
                 <div class="tool-card">
-                    <img src="https://images.unsplash.com/photo-1555774698-0b77e0d5fac6" alt="QR Code Generator">
+                    <img src="https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="QR Code Generator" class="tool-card-img">
                     <div class="tool-info">
                         <h3>QR Code Generator</h3>
-                        <p>Create custom QR codes for URLs, text, and more.</p>
+                        <p>Create custom QR codes for URLs, text, contact info and more with styling options.</p>
                         <div class="tool-meta">
-                            <span><i class="fas fa-star"></i> 4.7 (1.1k)</span>
-                            <a href="qr-generator.html" class="btn">Use Tool</a>
+                            <span class="tool-rating"><i class="fas fa-star"></i> 4.7 (1.1k)</span>
+                            <a href="qr-generator.html" class="btn tool-btn">Use Tool</a>
                         </div>
                     </div>
                 </div>
@@ -607,38 +945,51 @@
     </section>
 
     <!-- Categories Section -->
-    <section class="categories">
+    <section class="section">
         <div class="container">
             <div class="section-title">
                 <h2>Tool Categories</h2>
+                <p>Browse tools by category to find exactly what you need</p>
             </div>
-            <div class="category-list">
+            <div class="categories">
                 <div class="category-item">
-                    <i class="fas fa-image"></i>
+                    <i class="fas fa-image category-icon"></i>
                     <h4>Image Tools</h4>
                     <p>15 tools</p>
                 </div>
                 <div class="category-item">
-                    <i class="fas fa-file-alt"></i>
+                    <i class="fas fa-file-alt category-icon"></i>
                     <h4>Text Tools</h4>
                     <p>12 tools</p>
                 </div>
                 <div class="category-item">
-                    <i class="fas fa-code"></i>
+                    <i class="fas fa-code category-icon"></i>
                     <h4>Code Tools</h4>
                     <p>18 tools</p>
                 </div>
                 <div class="category-item">
-                    <i class="fas fa-file-pdf"></i>
+                    <i class="fas fa-file-pdf category-icon"></i>
                     <h4>PDF Tools</h4>
                     <p>9 tools</p>
                 </div>
                 <div class="category-item">
-                    <i class="fas fa-video"></i>
+                    <i class="fas fa-video category-icon"></i>
                     <h4>Video Tools</h4>
                     <p>7 tools</p>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter">
+        <div class="container">
+            <h3>Stay Updated</h3>
+            <p>Subscribe to our newsletter to get notified about new tools and features</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Your email address" required>
+                <button type="submit">Subscribe <i class="fas fa-paper-plane"></i></button>
+            </form>
         </div>
     </section>
 
@@ -654,6 +1005,7 @@
                         <a href="#"><i class="fab fa-twitter"></i></a>
                         <a href="#"><i class="fab fa-instagram"></i></a>
                         <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
                     </div>
                 </div>
                 <div class="footer-column">
@@ -690,5 +1042,18 @@
             </div>
         </div>
     </footer>
-</body>
-</html>
+
+    <script>
+        // Mobile Navigation Toggle
+        const navToggle = document.getElementById('navToggle');
+        const mainNav = document.getElementById('mainNav');
+        
+        navToggle.addEventListener('click', () => {
+            mainNav.classList.toggle('active');
+            navToggle.innerHTML = mainNav.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Header Scroll Effect
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () =>
