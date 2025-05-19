@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+        }
+        
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        h1 {
+            color: #4a4a4a;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .input-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            gap: 10px;
+        }
+        
+        select {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: white;
+            transition: all 0.3s;
+        }
+        
+        select:focus {
+            border-color: #6e8efb;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(110, 142, 251, 0.2);
+        }
+        
+        button {
+            background: linear-gradient(to right, #6e8efb, #a777e3);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            margin-bottom: 20px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .result-container {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: left;
+            border-left: 5px solid #6e8efb;
+        }
+        
+        .result-item {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #ddd;
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .result-label {
+            font-weight: bold;
+            color: #6e8efb;
+        }
+        
+        .live-counter {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .days-left {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e8f4fc;
+            border-radius: 8px;
+            font-weight: bold;
+            color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Age Calculator</h1>
+        
+        <div class="input-group">
+            <select id="day">
+                <option value="">Day</option>
+                <!-- Days will be populated by JavaScript -->
+            </select>
+            
+            <select id="month">
+                <option value="">Month</option>
+                <option value="0">January</option>
+                <option value="1">February</option>
+                <option value="2">March</option>
+                <option value="3">April</option>
+                <option value="4">May</option>
+                <option value="5">June</option>
+                <option value="6">July</option>
+                <option value="7">August</option>
+                <option value="8">September</option>
+                <option value="9">October</option>
+                <option value="10">November</option>
+                <option value="11">December</option>
+            </select>
+            
+            <select id="year">
+                <option value="">Year</option>
+                <!-- Years will be populated by JavaScript -->
+            </select>
+        </div>
+        
+        <button onclick="calculateAge()">Calculate Age</button>
+        
+        <div class="result-container" id="results" style="display: none;">
+            <div class="result-item">
+                <span class="result-label">Age:</span> <span id="age-years">0</span> years <span id="age-months">0</span> months <span id="age-days">0</span> days
+            </div>
+            <div class="result-item">
+                <span class="result-label">Months:</span> <span id="total-months">0</span> months <span id="remaining-days">0</span> days
+            </div>
+            <div class="result-item">
+                <span class="result-label">Weeks:</span> <span id="total-weeks">0</span> weeks <span id="remaining-week-days">0</span> days
+            </div>
+            <div class="result-item">
+                <span class="result-label">Days:</span> <span id="total-days">0</span> days
+            </div>
+            <div class="result-item">
+                <span class="result-label">Hours:</span> <span id="total-hours">0</span> hours
+            </div>
+            <div class="result-item">
+                <span class="result-label">Minutes:</span> <span id="total-minutes">0</span> minutes
+            </div>
+            <div class="result-item">
+                <span class="result-label">Seconds:</span> <span id="total-seconds" class="live-counter">0</span> seconds
+            </div>
+            
+            <div class="days-left" id="next-birthday">
+                <span class="result-label">Days left until next birthday:</span> <span id="days-left">0</span> days
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Populate days dropdown
+        const daySelect = document.getElementById('day');
+        for (let i = 1; i <= 31; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = i;
+            daySelect.appendChild(option);
+        }
+        
+        // Populate years dropdown (from 1900 to current year)
+        const yearSelect = document.getElementById('year');
+        const currentYear = new Date().getFullYear();
+        for (let i = currentYear; i >= 1900; i--) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = i;
+            yearSelect.appendChild(option);
+        }
+        
+        // Set default date to March 14, 1993 as per example
+        document.getElementById('day').value = 14;
+        document.getElementById('month').value = 2; // March (0-indexed)
+        document.getElementById('year').value = 1993;
+        
+        let intervalId = null;
+        
+        function calculateAge() {
+            const day = parseInt(document.getElementById('day').value);
+            const month = parseInt(document.getElementById('month').value);
+            const year = parseInt(document.getElementById('year').value);
+            
+            if (isNaN(day) || day < 1 || day > 31) {
+                alert('Please select a valid day (1-31)');
+                return;
+            }
+            if (isNaN(month) || month < 0 || month > 11) {
+                alert('Please select a valid month');
+                return;
+            }
+            if (isNaN(year) || year < 1900 || year > currentYear) {
+                alert('Please select a valid year (1900-' + currentYear + ')');
+                return;
+            }
+            
+            // Validate the date (e.g., not February 30)
+            const testDate = new Date(year, month, day);
+            if (testDate.getDate() !== day || testDate.getMonth() !== month || testDate.getFullYear() !== year) {
+                alert('Please select a valid date');
+                return;
+            }
+            
+            // Clear any existing interval
+            if (intervalId) {
+                clearInterval(intervalId);
+            }
+            
+            // Calculate initial values
+            updateAge(day, month, year);
+            
+            // Update every second for the live counter
+            intervalId = setInterval(() => {
+                updateAge(day, month, year);
+            }, 1000);
+            
+            // Show results container
+            document.getElementById('results').style.display = 'block';
+        }
+        
+        function updateAge(day, month, year) {
+            const birthDate = new Date(year, month, day);
+            const now = new Date();
+            
+            // Calculate age in years, months, days
+            let ageYears = now.getFullYear() - birthDate.getFullYear();
+            let ageMonths = now.getMonth() - birthDate.getMonth();
+            let ageDays = now.getDate() - birthDate.getDate();
+            
+            if (ageDays < 0) {
+                ageMonths--;
+                // Get the last day of the previous month
+                const lastDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+                ageDays += lastDayOfMonth;
+            }
+            
+            if (ageMonths < 0) {
+                ageYears--;
+                ageMonths += 12;
+            }
+            
+            // Calculate total time
+            const diffMs = now - birthDate;
+            const totalDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+            const totalHours = Math.floor(diffMs / (1000 * 60 * 60));
+            const totalMinutes = Math.floor(diffMs / (1000 * 60));
+            const totalSeconds = Math.floor(diffMs / 1000);
+            
+            // Calculate months and remaining days
+            const totalMonths = ageYears * 12 + ageMonths;
+            const remainingDays = ageDays;
+            
+            // Calculate weeks and remaining days
+            const totalWeeks = Math.floor(totalDays / 7);
+            const remainingWeekDays = totalDays % 7;
+            
+            // Calculate days until next birthday
+            let nextBirthday = new Date(now.getFullYear(), month, day);
+            if (nextBirthday < now) {
+                nextBirthday.setFullYear(now.getFullYear() + 1);
+            }
+            const daysUntilNextBirthday = Math.ceil((nextBirthday - now) / (1000 * 60 * 60 * 24));
+            
+            // Update the UI
+            document.getElementById('age-years').textContent = ageYears;
+            document.getElementById('age-months').textContent = ageMonths;
+            document.getElementById('age-days').textContent = ageDays;
+            document.getElementById('total-months').textContent = totalMonths;
+            document.getElementById('remaining-days').textContent = remainingDays;
+            document.getElementById('total-weeks').textContent = totalWeeks;
+            document.getElementById('remaining-week-days').textContent = remainingWeekDays;
+            document.getElementById('total-days').textContent = totalDays.toLocaleString();
+            document.getElementById('total-hours').textContent = totalHours.toLocaleString();
+            document.getElementById('total-minutes').textContent = totalMinutes.toLocaleString();
+            document.getElementById('total-seconds').textContent = totalSeconds.toLocaleString();
+            document.getElementById('days-left').textContent = daysUntilNextBirthday;
+        }
+        
+        // Calculate on page load
+        window.onload = function() {
+            calculateAge();
+        };
+    </script>
+</body>
+</html>
