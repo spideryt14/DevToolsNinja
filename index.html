@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevTools Ninja - Your Ultimate Developer Toolkit</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3e84da;
+            --secondary: #333;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --info: #17a2b8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: var(--dark);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--primary);
+        }
+        
+        .search-box {
+            display: flex;
+            width: 40%;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 0.5rem;
+            border: none;
+            border-radius: 4px 0 0 4px;
+        }
+        
+        .search-box button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 1rem;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+        
+        .user-actions a {
+            color: white;
+            margin-left: 1rem;
+            text-decoration: none;
+        }
+        
+        /* Navigation */
+        nav {
+            padding: 1rem 0;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-right: 1.5rem;
+            position: relative;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+        
+        /* Dropdown Menu */
+        .dropdown {
+            position: relative;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            z-index: 1;
+            border-radius: 4px;
+            top: 100%;
+            left: 0;
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        
+        .dropdown-content a {
+            color: var(--dark);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .dropdown-content a:hover {
+            background-color: #f8f9fa;
+            color: var(--primary);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1499750310107-5fef28a66643');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #2c6db3;
+        }
+        
+        /* Tools Section */
+        .tools-section {
+            padding: 4rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2rem;
+            color: var(--dark);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 1rem;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary);
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .tool-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .tool-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .tool-info {
+            padding: 1.5rem;
+        }
+        
+        .tool-info h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+        
+        .tool-info p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .tool-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+        }
+        
+        .tool-meta .btn {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+        
+        /* Featured Tools */
+        .featured-tools {
+            background-color: var(--light);
+            padding: 4rem 0;
+        }
+        
+        /* Categories Section */
+        .categories {
+            padding: 4rem 0;
+        }
+        
+        .category-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .category-item {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            width: calc(20% - 1rem);
+            min-width: 150px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .category-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .category-item i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--primary);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-column ul li a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--primary);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-links a {
+            color: white;
+            background-color: rgba(255,255,255,0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--primary);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .category-item {
+                width: calc(25% - 1rem);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-top {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .search-box {
+                width: 100%;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0.5rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .category-item {
+                width: calc(33.33% - 1rem);
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero {
+                padding: 3rem 0;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .category-item {
+                width: calc(50% - 1rem);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="container">
+            <div class="header-top">
+                <a href="index.html" class="logo">DevTools<span>Ninja</span></a>
+                <div class="search-box">
+                    <input type="text" placeholder="Search tools...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                <div class="user-actions">
+                    <a href="#"><i class="fas fa-user"></i> Login</a>
+                    <a href="#"><i class="fas fa-shopping-cart"></i> Cart</a>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li class="dropdown">
+                        <a href="#">All Tools <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-content">
+                            <a href="image-tools.html">Image Tools</a>
+                            <a href="text-tools.html">Text Tools</a>
+                            <a href="code-tools.html">Code Tools</a>
+                            <a href="pdf-tools.html">PDF Tools</a>
+                            <a href="video-tools.html">Video Tools</a>
+                        </div>
+                    </li>
+                    <li><a href="featured.html">Featured</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Your Ultimate Developer Toolkit</h1>
+            <p>Access powerful tools for image processing, text manipulation, code formatting, PDF editing and more - all in one place!</p>
+            <a href="#tools" class="btn">Explore Tools</a>
+        </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section class="tools-section" id="tools">
+        <div class="container">
+            <div class="section-title">
+                <h2>Popular Tools</h2>
+            </div>
+            <div class="tools-grid">
+                <!-- Tool Card 1 -->
+                <div class="tool-card">
+                    <img src="https://images.unsplash.com/photo-1579820010410-c10411aaaa88" alt="Background Remover">
+                    <div class="tool-info">
+                        <h3>Background Remover</h3>
+                        <p>Instantly remove backgrounds from images with AI-powered precision.</p>
+                        <div class="tool-meta">
+                            <span><i class="fas fa-star"></i> 4.8 (1.2k)</span>
+                            <a href="background-remover.html" class="btn">Use Tool</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tool Card 2 -->
+                <div class="tool-card">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71" alt="Image Converter">
+                    <div class="tool-info">
+                        <h3>Image Converter</h3>
+                        <p>Convert between JPG, PNG, WEBP and other formats with ease.</p>
+                        <div class="tool-meta">
+                            <span><i class="fas fa-star"></i> 4.6 (890)</span>
+                            <a href="image-converter.html" class="btn">Use Tool</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tool Card 3 -->
+                <div class="tool-card">
+                    <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4" alt="Code Formatter">
+                    <div class="tool-info">
+                        <h3>Code Formatter</h3>
+                        <p>Format and beautify your code in multiple programming languages.</p>
+                        <div class="tool-meta">
+                            <span><i class="fas fa-star"></i> 4.9 (2.1k)</span>
+                            <a href="code-formatter.html" class="btn">Use Tool</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tool Card 4 -->
+                <div class="tool-card">
+                    <img src="https://images.unsplash.com/photo-1547658719-da2b51169166" alt="PDF Merger">
+                    <div class="tool-info">
+                        <h3>PDF Merger</h3>
+                        <p>Combine multiple PDF files into a single document quickly.</p>
+                        <div class="tool-meta">
+                            <span><i class="fas fa-star"></i> 4.7 (1.5k)</span>
+                            <a href="pdf-merger.html" class="btn">Use Tool</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tool Card 5 -->
+                <div class="tool-card">
+                    <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12" alt="Text Extractor">
+                    <div class="tool-info">
+                        <h3>Text Extractor</h3>
+                        <p>Extract text from images using advanced OCR technology.</p>
+                        <div class="tool-meta">
+                            <span><i class="fas fa-star"></i> 4.5 (760)</span>
+                            <a href="text-extractor.html" class="btn">Use Tool</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tool Card 6 -->
+                <div class="tool-card">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71" alt="Color Picker">
+                    <div class="tool-info">
+                        <h3>Color Picker</h3>
+                        <p>Identify and extract colors from any image with precision.</p>
+                        <div class="tool-meta">
+                            <span><i class="fas fa-star"></i> 4.4 (620)</span>
+                            <a href="color-picker.html" class="btn">Use Tool</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Tools Section -->
+    <section class="featured-tools">
+        <div class="container">
+            <div class="section-title">
+                <h2>Featured Tools</h2>
+            </div>
+            <div class="tools-grid">
+                <!-- Featured Tool 1 -->
+                <div class="tool-card">
+                    <img src="https://images.unsplash.com/photo-1614680376573-df3480f0c6ff" alt="Video Compressor">
+                    <div class="tool-info">
+                        <h3>Video Compressor</h3>
+                        <p>Reduce video file size without losing quality.</p>
+                        <div class="tool-meta">
+                            <span><i class="fas fa-star"></i> 4.8 (950)</span>
+                            <a href="video-compressor.html" class="btn">Use Tool</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Featured Tool 2 -->
+                <div class="tool-card">
+                    <img src="https://images.unsplash.com/photo-1555774698-0b77e0d5fac6" alt="QR Code Generator">
+                    <div class="tool-info">
+                        <h3>QR Code Generator</h3>
+                        <p>Create custom QR codes for URLs, text, and more.</p>
+                        <div class="tool-meta">
+                            <span><i class="fas fa-star"></i> 4.7 (1.1k)</span>
+                            <a href="qr-generator.html" class="btn">Use Tool</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories">
+        <div class="container">
+            <div class="section-title">
+                <h2>Tool Categories</h2>
+            </div>
+            <div class="category-list">
+                <div class="category-item">
+                    <i class="fas fa-image"></i>
+                    <h4>Image Tools</h4>
+                    <p>15 tools</p>
+                </div>
+                <div class="category-item">
+                    <i class="fas fa-file-alt"></i>
+                    <h4>Text Tools</h4>
+                    <p>12 tools</p>
+                </div>
+                <div class="category-item">
+                    <i class="fas fa-code"></i>
+                    <h4>Code Tools</h4>
+                    <p>18 tools</p>
+                </div>
+                <div class="category-item">
+                    <i class="fas fa-file-pdf"></i>
+                    <h4>PDF Tools</h4>
+                    <p>9 tools</p>
+                </div>
+                <div class="category-item">
+                    <i class="fas fa-video"></i>
+                    <h4>Video Tools</h4>
+                    <p>7 tools</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>DevTools Ninja</h3>
+                    <p>Your ultimate developer toolkit with powerful tools for all your development needs.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Tool Categories</h3>
+                    <ul>
+                        <li><a href="image-tools.html">Image Tools</a></li>
+                        <li><a href="text-tools.html">Text Tools</a></li>
+                        <li><a href="code-tools.html">Code Tools</a></li>
+                        <li><a href="pdf-tools.html">PDF Tools</a></li>
+                        <li><a href="video-tools.html">Video Tools</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Info</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Developer St, Tech City</li>
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-envelope"></i> info@devtoolsninja.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 DevTools Ninja. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
