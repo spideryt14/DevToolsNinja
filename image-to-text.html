@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevToolsNinja | Image to Text</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root {
+            --primary: #6c63ff;
+            --secondary: #4a42e8;
+            --dark: #333;
+            --light: #f8f9fa;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--light);
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .logo {
+            width: 180px;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.2));
+            transition: all 0.3s;
+        }
+        .logo:hover {
+            transform: scale(1.05) rotate(-5deg);
+        }
+
+        h1 {
+            margin: 10px 0 20px;
+            font-size: 2rem;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .upload-box {
+            border: 2px dashed rgba(255, 255, 255, 0.5);
+            padding: 30px;
+            border-radius: 10px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin: 20px 0;
+        }
+
+        .upload-box:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        #image-upload {
+            display: none;
+        }
+
+        .upload-label {
+            display: block;
+            padding: 12px 24px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            margin: 10px auto;
+            width: fit-content;
+        }
+
+        .upload-label:hover {
+            background: var(--secondary);
+            transform: scale(1.05);
+        }
+
+        #file-info {
+            margin: 10px 0;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.8);
+            animation: fadeIn 0.5s ease;
+        }
+
+        button {
+            padding: 12px 30px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            font-weight: bold;
+            margin-top: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            background: var(--secondary);
+            transform: scale(1.05) translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            text-align: left;
+            min-height: 100px;
+            color: white;
+            white-space: pre-wrap;
+            animation: fadeIn 0.6s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .preview-image {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 8px;
+            margin: 10px 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            animation: popIn 0.5s ease;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container animate__animated animate__fadeInUp">
+        <img src="https://i.imgur.com/whMnKbv.jpeg" alt="DevToolsNinja Logo" class="logo"> <!-- Replace with your logo URL -->
+        <h1>Image to Text Converter</h1>
+        <div class="upload-box" id="drop-zone">
+            <input type="file" id="image-upload" accept="image/*">
+            <label for="image-upload" class="upload-label">📁 Choose Image</label>
+            <p>or drag & drop here</p>
+            <div id="file-info"></div>
+            <div id="image-preview"></div>
+            <button onclick="extractText()">✨ Extract Text</button>
+        </div>
+        <div id="result"></div>
+    </div>
+
+    <!-- Tesseract.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
