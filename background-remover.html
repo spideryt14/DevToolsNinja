@@ -3,249 +3,447 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Background Remover</title>
+    <title>Background Remover | DevToolsNinja</title>
     <style>
-        /* General Body Styles */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        
+        :root {
+            --primary: #6e8efb;
+            --secondary: #a777e3;
+            --accent: #ff6b6b;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
             margin: 0;
             padding: 20px;
-            /* Updated Gradient Background */
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #ffffff; /* White text for better contrast on gradient */
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 100vh;
-            box-sizing: border-box;
+            color: var(--dark);
+            overflow-x: hidden;
         }
-
-        /* Main Application Container */
-        .container {
-            background-color: rgba(255, 255, 255, 0.15); /* Semi-transparent white */
-            backdrop-filter: blur(10px); /* Frosted glass effect */
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
-            width: 100%;
-            max-width: 800px; /* Max width for the container */
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .logo-container {
             text-align: center;
-            box-sizing: border-box;
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
         }
-
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .logo {
+            height: 80px;
+            width: auto;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
+            transition: all 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 8px 15px rgba(0,0,0,0.2));
+        }
+        
+        .brand-text {
+            font-size: 1.4rem;
+            color: white;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-top: 5px;
+            letter-spacing: 1px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textGlow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes textGlow {
+            from { text-shadow: 0 0 5px rgba(110, 142, 251, 0.5); }
+            to { text-shadow: 0 0 15px rgba(167, 119, 227, 0.8); }
+        }
+        
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+            animation: fadeInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px) rotateX(10deg);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) rotateX(0);
+            }
+        }
+        
         h1 {
-            color: #ffffff; /* White heading */
+            color: var(--dark);
             margin-bottom: 25px;
-            font-weight: 600;
+            font-size: 2.2rem;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
         }
-
-        /* File Input Styling */
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 2px;
+            animation: underlineGrow 0.8s ease-out;
+        }
+        
+        @keyframes underlineGrow {
+            from { width: 0; }
+            to { width: 80px; }
+        }
+        
         .file-input-container {
             margin-bottom: 25px;
-            padding: 20px;
-            border: 2px dashed rgba(255, 255, 255, 0.7); /* Dashed border */
-            border-radius: 8px;
-            background-color: rgba(255, 255, 255, 0.1);
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .file-input-container:hover {
+            padding: 30px;
+            border: 2px dashed rgba(110, 142, 251, 0.5);
+            border-radius: 15px;
             background-color: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
-
+        
+        .file-input-container:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .file-input-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .file-input-container:hover::before {
+            left: 100%;
+        }
+        
         #imageUpload {
-            display: none; /* Hide the default file input */
+            display: none;
         }
-
+        
         #imageUploadLabel {
             font-size: 1.1em;
-            color: #f0f0f0; /* Light gray text for label */
+            color: var(--dark);
+            font-weight: 500;
             cursor: pointer;
-            display: block; /* Make label take full width */
+            display: block;
+            transition: all 0.3s;
         }
+        
         #fileName {
             display: block;
             font-size: 0.9em;
-            color: #cccccc;
-            margin-top: 8px;
+            color: #666;
+            margin-top: 10px;
+            font-weight: 400;
         }
-
-        /* Image Display Area */
+        
         .image-display-area {
             display: flex;
-            flex-wrap: wrap; /* Allow wrapping on smaller screens */
-            justify-content: space-around; /* Space out images */
-            gap: 20px; /* Gap between original and processed image containers */
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 20px;
             margin-bottom: 25px;
         }
-
+        
         .image-container {
-            flex: 1; /* Each container takes equal space */
-            min-width: 250px; /* Minimum width before wrapping */
-            padding: 15px;
-            border-radius: 8px;
-            background-color: rgba(0, 0, 0, 0.1); /* Darker overlay for image containers */
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            flex: 1;
+            min-width: 250px;
+            padding: 20px;
+            border-radius: 15px;
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
         }
-
+        
+        .image-container:hover {
+            transform: translateY(-5px) rotateX(5deg);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
         .image-container h3 {
             margin-top: 0;
-            margin-bottom: 10px;
-            font-size: 1.1em;
-            color: #e0e0e0;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            color: var(--dark);
+            font-weight: 600;
         }
-
+        
         .image-preview {
             max-width: 100%;
-            max-height: 350px; /* Max height for previews */
-            border-radius: 6px;
-            background-color: #555; /* Placeholder background for image slot */
-            object-fit: contain; /* Ensure image fits well */
+            max-height: 300px;
+            border-radius: 10px;
+            background-color: #f5f5f5;
+            object-fit: contain;
             display: block;
-            margin: 0 auto; /* Center image */
+            margin: 0 auto;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
         }
-
+        
+        .image-preview:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+        
         #originalImage, #processedImage {
-            min-height: 150px; /* Minimum height for image previews */
+            min-height: 200px;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 0.9em;
         }
-
-
-        /* Controls and Buttons */
+        
         .controls {
             margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
         }
-
+        
         .button {
-            background-color: #ff69b4; /* Hot pink button */
+            background: linear-gradient(to right, var(--primary), var(--secondary));
             color: white;
             border: none;
-            padding: 12px 25px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
+            padding: 15px 30px;
+            border-radius: 50px;
             font-size: 1em;
-            font-weight: 500;
-            border-radius: 25px; /* Pill-shaped buttons */
+            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.1s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            margin: 5px;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(110, 142, 251, 0.4);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            min-width: 200px;
         }
-
+        
         .button:hover {
-            background-color: #ff4f9a; /* Darker pink on hover */
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(110, 142, 251, 0.6);
         }
-
+        
         .button:active {
-            transform: translateY(0px);
+            transform: translateY(1px);
         }
-
+        
+        .button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0.1), rgba(255,255,255,0.3));
+            transform: translateX(-100%);
+            transition: transform 0.4s ease;
+        }
+        
+        .button:hover::after {
+            transform: translateX(0);
+        }
+        
         .button:disabled {
-            background-color: #cccccc;
+            background: #ccc;
             cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
+            transform: none !important;
+            box-shadow: none !important;
         }
-
-        /* Loading Spinner */
+        
+        .button:disabled::after {
+            display: none;
+        }
+        
         .loader-container {
-            display: none; /* Hidden by default */
+            display: none;
             margin: 20px 0;
             text-align: center;
+            animation: fadeIn 0.5s ease;
         }
-
+        
         .loader {
-            border: 5px solid rgba(255,255,255,0.3); /* Light border for spinner */
-            border-top: 5px solid #ff69b4; /* Pink to match button */
+            border: 5px solid rgba(110, 142, 251, 0.2);
+            border-top: 5px solid var(--primary);
             border-radius: 50%;
             width: 50px;
             height: 50px;
             animation: spin 1s linear infinite;
-            margin: 0 auto 10px auto;
+            margin: 0 auto 15px auto;
         }
-
-        #loadingMessage {
-            font-size: 1em;
-            color: #f0f0f0;
-        }
-
+        
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-
-        /* Footer */
+        
+        #loadingMessage {
+            font-size: 1em;
+            color: var(--dark);
+            font-weight: 500;
+        }
+        
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: floatParticle 15s infinite linear;
+        }
+        
+        @keyframes floatParticle {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; }
+        }
+        
         footer {
             margin-top: auto;
-            padding-top: 20px;
+            padding: 15px 0;
             font-size: 0.9em;
             color: rgba(255, 255, 255, 0.8);
+            text-align: center;
         }
-
-        /* Responsive Adjustments */
+        
         @media (max-width: 768px) {
             .container {
                 padding: 20px;
-                margin: 10px;
             }
-
+            
             h1 {
-                font-size: 1.8em;
+                font-size: 1.8rem;
             }
+            
+            .file-input-container {
+                padding: 20px;
+            }
+            
             .image-display-area {
-                flex-direction: column; /* Stack images vertically */
-                align-items: center;
+                flex-direction: column;
             }
-            .image-container {
-                width: 90%; /* Take more width when stacked */
-                min-width: unset;
-            }
-
+            
             .button {
-                padding: 10px 20px;
-                font-size: 0.95em;
+                padding: 12px 25px;
+                min-width: 160px;
             }
         }
-
+        
         @media (max-width: 480px) {
             h1 {
-                font-size: 1.5em;
+                font-size: 1.5rem;
             }
+            
             .file-input-container {
                 padding: 15px;
             }
+            
             #imageUploadLabel {
                 font-size: 1em;
             }
+            
             .button {
-                font-size: 0.9em;
-                width: calc(100% - 10px); /* Full width buttons on small screens */
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Floating particles background -->
+    <div class="particles" id="particles"></div>
+    
+    <div class="logo-container">
+        <img src="https://i.imgur.com/whMnKbv.jpeg" alt="DevToolsNinja Logo" class="logo">
+        <div class="brand-text">DevToolsNinja</div>
+    </div>
+    
     <div class="container">
-        <h1>Image Background Remover</h1>
-
+        <h1>Background Remover</h1>
+        
         <div class="file-input-container" onclick="document.getElementById('imageUpload').click();">
             <input type="file" id="imageUpload" accept="image/png, image/jpeg, image/jpg" />
-            <label for="imageUpload" id="imageUploadLabel">Click or Drag & Drop Image (PNG, JPG)</label>
+            <label for="imageUpload" id="imageUploadLabel">Click or Drag & Drop Image</label>
             <span id="fileName">No file selected</span>
         </div>
-
+        
         <div class="controls">
             <button id="processButton" class="button" disabled>Remove Background</button>
         </div>
-
+        
         <div class="loader-container" id="loaderContainer">
             <div class="loader"></div>
             <p id="loadingMessage">Processing image, please wait...</p>
         </div>
-
+        
         <div class="image-display-area">
             <div class="image-container" id="originalContainer" style="display: none;">
                 <h3>Original Image</h3>
@@ -254,21 +452,45 @@
             <div class="image-container" id="processedContainer" style="display: none;">
                 <h3>Background Removed</h3>
                 <img id="processedImage" class="image-preview" src="#" alt="Processed Image Preview" />
-                 <button id="downloadButton" class="button" style="display: none; margin-top: 15px;">Download Image</button>
+                <button id="downloadButton" class="button" style="display: none; margin-top: 15px;">Download Image</button>
             </div>
         </div>
-        <p id="apiInfo" style="font-size: 0.8em; color: #ddd; margin-top: 15px;">
-            Using remove.bg API.
-            Free previews might be lower resolution depending on your API plan.
-        </p>
     </div>
-
+    
     <footer>
-        <p>&copy; <span id="currentYear"></span> Background Remover App. API by remove.bg</p>
+        <p>&copy; <span id="currentYear"></span> DevToolsNinja Background Remover</p>
     </footer>
 
     <script>
-        // DOM Element References
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random size between 2px and 6px
+                const size = Math.random() * 4 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random position
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.bottom = `-${size}px`;
+                
+                // Random animation duration and delay
+                const duration = Math.random() * 15 + 10;
+                const delay = Math.random() * 10;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // DOM Elements
         const imageUpload = document.getElementById('imageUpload');
         const imageUploadLabel = document.getElementById('imageUploadLabel');
         const fileNameDisplay = document.getElementById('fileName');
@@ -284,82 +506,75 @@
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
         // API Configuration
-        const apiKey = 'EVCYsvreC3BEjtzDqLwAL6uV'; // YOUR API KEY IS NOW ADDED HERE
+        const apiKey = 'EVCYsvreC3BEjtzDqLwAL6uV'; // Replace with your actual API key
         const removeBgApiUrl = 'https://api.remove.bg/v1.0/removebg';
 
-        let uploadedFile = null; // To store the selected file object
-        let originalFileName = ''; // To store the original file name for download
+        let uploadedFile = null;
+        let originalFileName = '';
 
-        // --- Event Listeners ---
-
-        // Handle file selection via click
+        // Event Listeners
         imageUpload.addEventListener('change', handleFileSelect);
-
-        // Handle file selection via drag and drop
+        
         fileInputContainer.addEventListener('dragover', (event) => {
-            event.preventDefault(); // Prevent default behavior (opening file)
-            fileInputContainer.style.backgroundColor = 'rgba(255, 255, 255, 0.25)';
+            event.preventDefault();
+            fileInputContainer.style.backgroundColor = 'rgba(255, 255, 255, 0.3)';
+            fileInputContainer.style.borderColor = 'var(--primary)';
         });
+        
         fileInputContainer.addEventListener('dragleave', () => {
-            fileInputContainer.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+            fileInputContainer.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
+            fileInputContainer.style.borderColor = 'rgba(110, 142, 251, 0.5)';
         });
+        
         fileInputContainer.addEventListener('drop', (event) => {
             event.preventDefault();
-            fileInputContainer.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+            fileInputContainer.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
+            fileInputContainer.style.borderColor = 'rgba(110, 142, 251, 0.5)';
             if (event.dataTransfer.files && event.dataTransfer.files[0]) {
-                imageUpload.files = event.dataTransfer.files; // Assign to file input
-                handleFileSelect({ target: imageUpload }); // Manually trigger handler
+                imageUpload.files = event.dataTransfer.files;
+                handleFileSelect({ target: imageUpload });
             }
         });
 
-        // Handle "Remove Background" button click
         processButton.addEventListener('click', processImage);
-
-        // Handle "Download Image" button click
         downloadButton.addEventListener('click', downloadProcessedImage);
 
-
-        // --- Functions ---
-
-        // Function to handle file selection (both click and drag-drop)
+        // Functions
         function handleFileSelect(event) {
             const files = event.target.files;
             if (files && files[0]) {
                 const file = files[0];
 
-                // Validate file type
                 if (!['image/png', 'image/jpeg', 'image/jpg'].includes(file.type)) {
-                    alert('Invalid file type. Please upload a PNG or JPG image.');
+                    alert('Please upload a PNG or JPG image.');
                     resetUI();
                     return;
                 }
 
                 uploadedFile = file;
-                originalFileName = file.name.split('.').slice(0, -1).join('.'); // Get name without extension
+                originalFileName = file.name.split('.').slice(0, -1).join('.');
 
-                // Display original image preview
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     originalImage.src = e.target.result;
                     originalContainer.style.display = 'block';
-                    processedContainer.style.display = 'none'; // Hide previous result
-                    processedImage.src = "#"; // Clear previous processed image
+                    processedContainer.style.display = 'none';
+                    processedImage.src = "#";
                     downloadButton.style.display = 'none';
                 }
                 reader.readAsDataURL(file);
 
                 fileNameDisplay.textContent = file.name;
-                processButton.disabled = false; // Enable process button
+                processButton.disabled = false;
             } else {
                 resetUI();
             }
         }
 
-        // Function to reset the UI elements
         function resetUI() {
             uploadedFile = null;
             originalFileName = '';
-            imageUpload.value = ''; // Clear the file input
+            imageUpload.value = '';
             fileNameDisplay.textContent = 'No file selected';
             originalImage.src = '#';
             processedImage.src = '#';
@@ -370,97 +585,83 @@
             loaderContainer.style.display = 'none';
         }
 
-
-        // Function to call remove.bg API and process the image
         async function processImage() {
             if (!uploadedFile) {
                 alert('Please upload an image first.');
                 return;
             }
-            if (!apiKey) { // Check if API key is present
-                alert('API key is missing. Please check the script.');
+            if (!apiKey) {
+                alert('API key is missing. Please check the configuration.');
                 return;
             }
 
-            // Show loader and disable button
             loaderContainer.style.display = 'block';
             loadingMessage.textContent = 'Uploading and processing image...';
             processButton.disabled = true;
-            downloadButton.style.display = 'none'; // Hide download button during processing
-            processedContainer.style.display = 'none'; // Hide previous result
-
+            downloadButton.style.display = 'none';
+            processedContainer.style.display = 'none';
 
             const formData = new FormData();
             formData.append('image_file', uploadedFile);
-            formData.append('size', 'auto'); // 'auto' for best quality based on API plan, can also be 'preview', 'medium', 'hd', '4k', 'full'
+            formData.append('size', 'auto');
 
             try {
-                loadingMessage.textContent = 'Removing background... this may take a moment.';
+                loadingMessage.textContent = 'Removing background...';
                 const response = await fetch(removeBgApiUrl, {
                     method: 'POST',
                     headers: {
                         'X-Api-Key': apiKey
-                        // 'Content-Type': 'multipart/form-data' is set automatically by browser for FormData
                     },
                     body: formData
                 });
 
                 if (!response.ok) {
-                    // Try to get error message from API response
                     let errorData;
                     try {
-                        errorData = await response.json(); // remove.bg errors are typically JSON
+                        errorData = await response.json();
                     } catch (e) {
-                        // If response is not JSON (e.g. network error before API responds, or unexpected format)
-                        throw new Error(`API Error: ${response.status} ${response.statusText}. Response was not valid JSON.`);
+                        throw new Error(`API Error: ${response.status} ${response.statusText}`);
                     }
-                    // Construct a more detailed error message if possible
                     const apiErrorMessage = errorData && errorData.errors && errorData.errors.length > 0 ?
                                           errorData.errors.map(err => err.title || err.detail || 'Unknown API error').join(', ') :
                                           `API Error: ${response.status} ${response.statusText}`;
                     throw new Error(apiErrorMessage);
                 }
 
-                // Get the processed image as a Blob
                 const imageBlob = await response.blob();
-
-                // Create a URL for the Blob and display the processed image
                 processedImage.src = URL.createObjectURL(imageBlob);
                 processedContainer.style.display = 'block';
-                downloadButton.style.display = 'inline-block'; // Show download button
+                downloadButton.style.display = 'inline-block';
 
             } catch (error) {
                 console.error('Error removing background:', error);
                 alert(`Failed to remove background: ${error.message}`);
-                processedImage.src = '#'; // Clear image on error
+                processedImage.src = '#';
                 processedContainer.style.display = 'none';
             } finally {
-                // Hide loader and re-enable button
                 loaderContainer.style.display = 'none';
                 processButton.disabled = false;
             }
         }
 
-        // Function to download the processed image
         function downloadProcessedImage() {
-            if (!processedImage.src || processedImage.src.endsWith("#") || !processedImage.src.startsWith("blob:")) { // Check if src is a valid blob URL
+            if (!processedImage.src || processedImage.src.endsWith("#") || !processedImage.src.startsWith("blob:")) {
                 alert('No processed image to download.');
                 return;
             }
 
             const link = document.createElement('a');
-            link.href = processedImage.src; // This is a blob URL
-            link.download = `${originalFileName || 'image'}_no_bg.png`; // Set desired file name
+            link.href = processedImage.src;
+            link.download = `${originalFileName || 'image'}_no_bg.png`;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-
-            // Optional: Revoke the object URL after download to free up resources.
-            // URL.revokeObjectURL(processedImage.src);
-            // If you do this, the user can't click download again without reprocessing.
-            // For this example, we'll leave it so they can click multiple times if needed,
-            // but in a more complex app, you might manage blob URLs more carefully.
         }
+
+        // Initialize
+        window.onload = function() {
+            createParticles();
+        };
     </script>
 </body>
 </html>
