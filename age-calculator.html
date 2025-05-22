@@ -3,36 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Age Calculator</title>
+    <title>Age Calculator | DevToolsNinja</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        
+        :root {
+            --primary: #6e8efb;
+            --secondary: #a777e3;
+            --accent: #ff6b6b;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
             margin: 0;
             padding: 0;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: #333;
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
         
         .container {
             background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
             padding: 30px;
             width: 90%;
             max-width: 600px;
             text-align: center;
-            animation: fadeIn 0.5s ease-in-out;
+            animation: fadeInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+        
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px) rotateX(10deg);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) rotateX(0);
+            }
+        }
+        
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .logo {
+            height: 80px;
+            width: auto;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
+            transition: all 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 8px 15px rgba(0,0,0,0.2));
+        }
+        
+        .brand-text {
+            font-size: 1.4rem;
+            color: white;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-top: 5px;
+            letter-spacing: 1px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textGlow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes textGlow {
+            from { text-shadow: 0 0 5px rgba(110, 142, 251, 0.5); }
+            to { text-shadow: 0 0 15px rgba(167, 119, 227, 0.8); }
         }
         
         h1 {
-            color: #4a4a4a;
+            color: var(--dark);
             margin-bottom: 30px;
-            font-size: 2.5rem;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            font-size: 2.2rem;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 2px;
+            animation: underlineGrow 0.8s ease-out;
+        }
+        
+        @keyframes underlineGrow {
+            from { width: 0; }
+            to { width: 80px; }
         }
         
         .input-group {
@@ -44,53 +147,97 @@
         
         select {
             flex: 1;
-            padding: 12px;
+            padding: 15px;
             border: 2px solid #ddd;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 1rem;
             background-color: white;
             transition: all 0.3s;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 15px;
         }
         
         select:focus {
-            border-color: #6e8efb;
+            border-color: var(--primary);
             outline: none;
             box-shadow: 0 0 0 3px rgba(110, 142, 251, 0.2);
+            transform: translateY(-2px);
         }
         
         button {
-            background: linear-gradient(to right, #6e8efb, #a777e3);
+            background: linear-gradient(to right, var(--primary), var(--secondary));
             color: white;
             border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            font-size: 1rem;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-size: 1.1rem;
             cursor: pointer;
             transition: all 0.3s;
             width: 100%;
             margin-bottom: 20px;
-            font-weight: bold;
+            font-weight: 600;
             letter-spacing: 1px;
+            text-transform: uppercase;
+            box-shadow: 0 5px 15px rgba(110, 142, 251, 0.4);
+            position: relative;
+            overflow: hidden;
         }
         
         button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(110, 142, 251, 0.6);
+        }
+        
+        button:active {
+            transform: translateY(1px);
+        }
+        
+        button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0.1), rgba(255,255,255,0.3));
+            transform: translateX(-100%);
+            transition: transform 0.4s ease;
+        }
+        
+        button:hover::after {
+            transform: translateX(0);
         }
         
         .result-container {
-            background-color: #f9f9f9;
-            border-radius: 10px;
-            padding: 20px;
+            background-color: rgba(249, 249, 249, 0.95);
+            border-radius: 15px;
+            padding: 25px;
             margin-top: 20px;
             text-align: left;
-            border-left: 5px solid #6e8efb;
+            border-left: 5px solid var(--primary);
+            animation: fadeIn 0.6s ease-out;
+            transform-origin: top;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scaleY(0.9); }
+            to { opacity: 1; transform: scaleY(1); }
         }
         
         .result-item {
-            margin-bottom: 10px;
-            padding-bottom: 10px;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
             border-bottom: 1px dashed #ddd;
+            transition: all 0.3s;
+        }
+        
+        .result-item:hover {
+            transform: translateX(5px);
         }
         
         .result-item:last-child {
@@ -100,32 +247,81 @@
         }
         
         .result-label {
-            font-weight: bold;
-            color: #6e8efb;
+            font-weight: 600;
+            color: var(--primary);
+            display: inline-block;
+            min-width: 150px;
         }
         
         .live-counter {
-            color: #e74c3c;
-            font-weight: bold;
+            color: var(--accent);
+            font-weight: 700;
+            animation: pulse 1s infinite;
         }
         
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
         
         .days-left {
-            margin-top: 20px;
+            margin-top: 25px;
             padding: 15px;
-            background-color: #e8f4fc;
-            border-radius: 8px;
-            font-weight: bold;
-            color: #2980b9;
+            background: linear-gradient(to right, rgba(232, 244, 252, 0.8), rgba(200, 230, 255, 0.8));
+            border-radius: 10px;
+            font-weight: 600;
+            color: var(--dark);
+            text-align: center;
+            animation: bounceIn 0.8s;
+            border: 1px solid rgba(110, 142, 251, 0.2);
+        }
+        
+        @keyframes bounceIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .days-left .result-label {
+            color: var(--secondary);
+        }
+        
+        /* Floating particles background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: floatParticle 15s infinite linear;
+        }
+        
+        @keyframes floatParticle {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; }
         }
     </style>
 </head>
 <body>
+    <!-- Floating particles -->
+    <div class="particles" id="particles"></div>
+    
     <div class="container">
+        <div class="logo-container">
+            <img src="https://i.imgur.com/whMnKbv.jpeg" alt="DevToolsNinja Logo" class="logo">
+            <div class="brand-text">DevToolsNinja</div>
+        </div>
+        
         <h1>Age Calculator</h1>
         
         <div class="input-group">
@@ -182,12 +378,40 @@
             </div>
             
             <div class="days-left" id="next-birthday">
-                <span class="result-label">Days left until next birthday:</span> <span id="days-left">0</span> days
+                <span class="result-label">Days until next birthday:</span> <span id="days-left">0</span> days
             </div>
         </div>
     </div>
 
     <script>
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random size between 2px and 6px
+                const size = Math.random() * 4 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random position
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.bottom = `-${size}px`;
+                
+                // Random animation duration and delay
+                const duration = Math.random() * 15 + 10;
+                const delay = Math.random() * 10;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
         // Populate days dropdown
         const daySelect = document.getElementById('day');
         for (let i = 1; i <= 31; i++) {
@@ -252,8 +476,10 @@
                 updateAge(day, month, year);
             }, 1000);
             
-            // Show results container
-            document.getElementById('results').style.display = 'block';
+            // Show results container with animation
+            const results = document.getElementById('results');
+            results.style.display = 'block';
+            results.style.animation = 'fadeIn 0.6s ease-out';
         }
         
         function updateAge(day, month, year) {
@@ -314,8 +540,9 @@
             document.getElementById('days-left').textContent = daysUntilNextBirthday;
         }
         
-        // Calculate on page load
+        // Initialize on page load
         window.onload = function() {
+            createParticles();
             calculateAge();
         };
     </script>
