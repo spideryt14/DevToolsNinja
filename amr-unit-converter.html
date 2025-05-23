@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Converter</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f8ff; /* Light Alice Blue */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #333;
+            padding: 20px; /* Added padding for smaller screens */
+            box-sizing: border-box; /* Ensures padding doesn't add to total width/height */
+        }
+
+        .converter-container {
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+            width: 100%; /* Changed for better responsiveness */
+            max-width: 500px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            width: 100px;
+            height: auto;
+            margin-bottom: 20px;
+            animation: spin 4s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        h1 {
+            color: #007bff; /* Blue */
+            margin-bottom: 25px;
+            font-size: 2em;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Align labels to the left */
+            text-align: left; /* Ensure text within labels is left-aligned */
+        }
+
+        .input-group label {
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        button {
+            background-color: #28a745; /* Green */
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            width: 100%; /* Make button full width */
+            margin-top: 10px; /* Add some space above the button */
+        }
+
+        button:hover {
+            background-color: #218838; /* Darker Green */
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        #result {
+            margin-top: 25px;
+            font-size: 1.2em;
+            color: #333;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 6px;
+            min-height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: slideIn 0.5s ease-out;
+            word-break: break-all; /* Prevent long results from breaking layout */
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .unit-options {
+            display: flex;
+            flex-direction: column; /* Stack on small screens */
+            gap: 15px; /* Space between unit selects */
+        }
+
+        /* For wider screens, display unit options side-by-side */
+        @media (min-width: 480px) {
+            .unit-options {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            .unit-options .input-group {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="converter-container">
+        <img src="https://i.imgur.com/whMnKbv.jpeg" alt="Logo" class="logo">
+        <h1>Unit Converter</h1>
+
+        <div class="input-group">
+            <label for="conversionType">Conversion Type:</label>
+            <select id="conversionType" onchange="updateUnitOptions()">
+                <option value="length">Length</option>
+                <option value="weight">Weight</option>
+                <option value="temperature">Temperature</option>
+                <option value="area">Area</option>
+                <option value="volume">Volume</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label for="inputValue">Enter Value:</label>
+            <input type="number" id="inputValue" placeholder="Enter value here">
+        </div>
+
+        <div class="unit-options">
+            <div class="input-group">
+                <label for="fromUnit">From Unit:</label>
+                <select id="fromUnit">
+                    </select>
+            </div>
+
+            <div class="input-group">
+                <label for="toUnit">To Unit:</label>
+                <select id="toUnit">
+                    </select>
+            </div>
+        </div>
+
+        <button onclick="convert()">Convert</button>
+
+        <div id="result">
+            Result will be shown here
+        </div>
+    </div>
+
+    <script>
+        const units = {
+            length: {
+                meter: { name: 'Meter (m)', value: 1 },
+                kilometer: { name: 'Kilometer (km)', value: 1000 },
+                centimeter: { name: 'Centimeter (cm)', value: 0.01 },
+                millimeter: { name: 'Millimeter (mm)', value: 0.001 },
+                micrometer: { name: 'Micrometer (µm)', value: 1e-6 },
+                nanometer: { name: 'Nanometer (nm)', value: 1e-9 },
+                mile: { name: 'Mile (mi)', value: 1609.34 },
+                yard: { name: 'Yard (yd)', value: 0.9144 },
+                foot: { name: 'Foot (ft)', value: 0.3048 },
+                inch: { name: 'Inch (in)', value: 0.0254 }
+            },
+            weight: {
+                gram: { name: 'Gram (g)', value: 1 },
+                kilogram: { name: 'Kilogram (kg)', value: 1000 },
+                milligram: { name: 'Milligram (mg)', value: 0.001 },
+                metricTon: { name: 'Metric Ton (t)', value: 1e6 },
+                pound: { name: 'Pound (lb)', value: 453.592 },
+                ounce: { name: 'Ounce (oz)', value: 28.3495 }
+            },
+            temperature: { // Base unit for temperature conversion is Celsius
+                celsius: { name: 'Celsius (°C)', toBase: c => c, fromBase: c => c },
+                fahrenheit: { name: 'Fahrenheit (°F)', toBase: f => (f - 32) * 5/9, fromBase: c => (c * 9/5) + 32 },
+                kelvin: { name: 'Kelvin (K)', toBase: k => k - 273.15, fromBase: c => c + 273.15 }
+            },
+            area: { // Base unit for area is Square Meter
+                sqMeter: { name: 'Square Meter (m²)', value: 1 },
+                sqKilometer: { name: 'Square Kilometer (km²)', value: 1e6 },
+                sqCentimeter: { name: 'Square Centimeter (cm²)', value: 1e-4 },
+                sqMillimeter: { name: 'Square Millimeter (mm²)', value: 1e-6 },
+                hectare: { name: 'Hectare (ha)', value: 1e4 },
+                sqMile: { name: 'Square Mile (mi²)', value: 2.59e6 }, // Approximately 2.59 * 10^6 m²
+                sqYard: { name: 'Square Yard (yd²)', value: 0.836127 },
+                sqFoot: { name: 'Square Foot (ft²)', value: 0.092903 },
+                sqInch: { name: 'Square Inch (in²)', value: 0.00064516 },
+                acre: { name: 'Acre', value: 4046.86 }
+            },
+            volume: { // Base unit for volume is Liter
+                liter: { name: 'Liter (L)', value: 1 },
+                milliliter: { name: 'Milliliter (mL)', value: 0.001 },
+                cubicMeter: { name: 'Cubic Meter (m³)', value: 1000 }, // 1 m³ = 1000 L
+                cubicCentimeter: { name: 'Cubic Centimeter (cm³)', value: 0.001 }, // 1 cm³ = 1 mL
+                cubicMillimeter: { name: 'Cubic Millimeter (mm³)', value: 1e-6 }, // 1 mm³ = 0.001 mL
+                gallon: { name: 'Gallon (US gal)', value: 3.78541 },
+                quart: { name: 'Quart (US qt)', value: 0.946353 },
+                pint: { name: 'Pint (US pt)', value: 0.473176 },
+                cup: { name: 'Cup (US cup)', value: 0.236588 },
+                fluidOunce: { name: 'Fluid Ounce (US fl oz)', value: 0.0295735 }
+            }
+        };
+
+        function populateUnits(unitType, selectElementId) {
+            const selectElement = document.getElementById(selectElementId);
+            selectElement.innerHTML = ''; // Clear previous options
+            const unitSet = units[unitType];
+            for (const unitKey in unitSet) {
+                const option = document.createElement('option');
+                option.value = unitKey;
+                option.textContent = unitSet[unitKey].name;
+                selectElement.appendChild(option);
+            }
+        }
+
+        function updateUnitOptions() {
+            const conversionType = document.getElementById('conversionType').value;
+            populateUnits(conversionType, 'fromUnit');
+            populateUnits(conversionType, 'toUnit');
+            document.getElementById('result').textContent = 'Result will be shown here'; // Reset result on type change
+            document.getElementById('inputValue').value = ''; // Reset input value
+            document.getElementById('result').style.color = '#333'; // Reset result color
+        }
+
+        function convert() {
+            const inputValue = parseFloat(document.getElementById('inputValue').value);
+            const conversionType = document.getElementById('conversionType').value;
+            const fromUnitKey = document.getElementById('fromUnit').value;
+            const toUnitKey = document.getElementById('toUnit').value;
+            const resultElement = document.getElementById('result');
+
+            if (isNaN(inputValue)) {
+                resultElement.textContent = 'Please enter a valid number.';
+                resultElement.style.color = 'red';
+                return;
+            }
+
+            resultElement.style.color = '#333'; // Revert to default color on success
+
+            let baseValue;
+            let convertedValue;
+            const selectedUnits = units[conversionType];
+
+            if (!selectedUnits || !selectedUnits[fromUnitKey] || !selectedUnits[toUnitKey]) {
+                resultElement.textContent = 'Invalid unit selection.';
+                resultElement.style.color = 'red';
+                return;
+            }
+
+
+            if (conversionType === 'temperature') {
+                const fromUnitDetails = selectedUnits[fromUnitKey];
+                const toUnitDetails = selectedUnits[toUnitKey];
+                baseValue = fromUnitDetails.toBase(inputValue);
+                convertedValue = toUnitDetails.fromBase(baseValue);
+            } else {
+                const fromUnitDetails = selectedUnits[fromUnitKey];
+                const toUnitDetails = selectedUnits[toUnitKey];
+                // Convert input value to the common base unit for that category
+                baseValue = inputValue * fromUnitDetails.value;
+                // Then convert from base unit to the target unit
+                convertedValue = baseValue / toUnitDetails.value;
+            }
+
+            if (isNaN(convertedValue) || !isFinite(convertedValue)) {
+                 resultElement.textContent = 'Conversion calculation error.';
+                 resultElement.style.color = 'red';
+            } else {
+                // Format the result (e.g., specific number of decimal places)
+                let finalResult;
+                if (convertedValue === 0) {
+                    finalResult = 0;
+                } else if (Math.abs(convertedValue) < 1e-6 ) { // Scientific notation for very small non-zero numbers
+                    finalResult = convertedValue.toExponential(4);
+                } else if (Math.abs(convertedValue) >= 1e7) { // Scientific notation for very large numbers
+                    finalResult = convertedValue.toExponential(4);
+                }
+                else { // Attempt to show a reasonable number of decimal places
+                    const rounded = Number(convertedValue.toFixed(6));
+                    // Avoid showing .000000 for whole numbers after rounding
+                    finalResult = (rounded % 1 === 0 && convertedValue % 1 !==0 && Math.abs(convertedValue) > 1e-6) ? Math.round(rounded) : rounded;
+                    // If it became 0 after rounding but wasn't 0, use exponential
+                    if (finalResult === 0 && convertedValue !== 0) {
+                        finalResult = convertedValue.toExponential(4);
+                    } else {
+                         // Limit total display length for very long decimals after conversion
+                        const strResult = String(finalResult);
+                        if (strResult.includes('.') && strResult.split('.')[1].length > 6) {
+                            finalResult = Number(convertedValue.toFixed(6));
+                        }
+                    }
+
+                }
+                resultElement.textContent = `${inputValue} ${selectedUnits[fromUnitKey].name} = ${finalResult} ${selectedUnits[toUnitKey].name}`;
+            }
+        }
+
+        // Load default unit options when the page loads
+        window.onload = updateUnitOptions;
+    </script>
+
+</body>
+</html>
