@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMI Calculator</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary-color: #4a90e2; /* A pleasant blue */
+            --secondary-color: #50e3c2; /* A minty green for accents */
+            --background-color: #f4f7f6; /* Light grey background */
+            --card-background: #ffffff;
+            --text-color: #333333;
+            --input-border-color: #dcdcdc;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --error-color: #e74c3c;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-x: hidden; /* Prevents horizontal scrollbar if animations are too wide */
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 10% 20%, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 25%),
+                radial-gradient(circle at 80% 30%, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 20%),
+                radial-gradient(circle at 25% 70%, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0) 22%),
+                radial-gradient(circle at 70% 85%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 18%);
+            animation: subtleShine 20s infinite alternate ease-in-out;
+            z-index: -1; /* Behind the content */
+        }
+
+        @keyframes subtleShine {
+            0% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+
+        .logo-container {
+            margin-bottom: 20px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .logo {
+            width: 100px;
+            height: auto;
+            border-radius: 50%;
+            box-shadow: 0 4px 15px var(--shadow-color);
+            animation: pulseLogo 2.5s infinite ease-in-out;
+        }
+
+        @keyframes pulseLogo {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 4px 15px var(--shadow-color);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 4px 15px var(--shadow-color);
+            }
+        }
+
+        .calculator-container {
+            background-color: var(--card-background);
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            animation: fadeInUp 1s ease-out 0.5s;
+            animation-fill-mode: backwards; /* Element is not visible before animation starts */
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .calculator-container h1 {
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            font-size: 2em;
+            font-weight: 600;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-color);
+            font-weight: 500;
+            font-size: 0.95em;
+        }
+
+        .input-group input[type="number"],
+        .input-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--input-border-color);
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 1em;
+            color: var(--text-color);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .input-group input[type="number"]:focus,
+        .input-group select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+            outline: none;
+        }
+
+        /* Adding a little icon or symbol */
+        .input-group.amount::before { content: '৳'; position: absolute; left: 15px; top: calc(50% + 7px); transform: translateY(-50%); color: var(--text-color); font-size: 1em; }
+        .input-group.interest::after { content: '%'; position: absolute; right: 15px; top: calc(50% + 7px); transform: translateY(-50%); color: var(--text-color); font-size: 1em; }
+        .input-group.amount input { padding-left: 35px; }
+        .input-group.interest input { padding-right: 35px; }
+
+
+        .calculate-btn {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 14px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 500;
+            width: 100%;
+            transition: transform 0.2s ease, box-shadow 0.3s ease, background-size 0.3s ease;
+            margin-top: 10px;
+            background-size: 200% auto;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(74, 144, 226, 0.3);
+            background-position: right center; /* change the direction of the change here */
+        }
+
+        .calculate-btn:active {
+            transform: translateY(0px);
+            box-shadow: 0 5px 10px rgba(74, 144, 226, 0.2);
+        }
+
+
+        .result-container {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e8f4fd; /* Light blue tint */
+            border-radius: 10px;
+            text-align: left;
+            animation: slideInFromBottom 0.5s ease-out;
+            display: none; /* Initially hidden */
+        }
+
+        @keyframes slideInFromBottom {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-container h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.5em;
+            text-align: center;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px dashed var(--input-border-color);
+            font-size: 1em;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .result-item span:first-child {
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .result-item span:last-child {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.9em;
+            margin-top: -10px;
+            margin-bottom: 15px;
+            text-align: left;
+            height: 1em; /* Reserve space to prevent layout shifts */
+        }
+
+        /* Range slider styling (optional, for better UX) */
+        .range-slider-group {
+            margin-top: 5px;
+        }
+        .range-slider-group input[type="range"] {
+            width: 100%;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 8px;
+            background: var(--input-border-color);
+            outline: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .range-slider-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            cursor: pointer;
+            border-radius: 50%;
+            border: 3px solid var(--card-background);
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+        }
+        .range-slider-group input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            cursor: pointer;
+            border-radius: 50%;
+            border: 3px solid var(--card-background);
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+        }
+        .slider-value {
+            display: block;
+            text-align: right;
+            font-size: 0.85em;
+            color: var(--text-color);
+            margin-top: -2px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="logo-container">
+        <img src="https://i.imgur.com/whMnKbv.jpeg" alt="Company Logo" class="logo">
+    </div>
+
+    <div class="calculator-container">
+        <h1>EMI Calculator</h1>
+
+        <div class="input-group amount">
+            <label for="principal">Loan Amount (৳)</label>
+            <input type="number" id="principal" placeholder="e.g., 100000">
+            <div class="range-slider-group">
+                <input type="range" id="principalRange" min="10000" max="10000000" step="10000" value="100000">
+                <span class="slider-value" id="principalValue">৳ 100,000</span>
+            </div>
+        </div>
+
+        <div class="input-group interest">
+            <label for="interestRate">Annual Interest Rate (%)</label>
+            <input type="number" id="interestRate" placeholder="e.g., 10.5" step="0.1">
+            <div class="range-slider-group">
+                <input type="range" id="interestRateRange" min="1" max="25" step="0.1" value="10.5">
+                <span class="slider-value" id="interestRateValue">10.5 %</span>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label for="tenure">Loan Tenure</label>
+            <div style="display: flex; gap: 10px;">
+                <input type="number" id="tenureValueInput" placeholder="e.g., 12" style="flex-grow: 1;">
+                <select id="tenureType" style="width: 100px;">
+                    <option value="months">Months</option>
+                    <option value="years">Years</option>
+                </select>
+            </div>
+             <div class="range-slider-group">
+                <input type="range" id="tenureRange" min="1" max="360" step="1" value="12"> <span class="slider-value" id="tenureDisplayValue">12 Months</span>
+            </div>
+        </div>
+
+        <div id="errorMessage" class="error-message"></div>
+
+        <button class="calculate-btn" onclick="calculateEMI()">Calculate EMI</button>
+
+        <div class="result-container" id="resultContainer">
+            <h2>Loan Details</h2>
+            <div class="result-item">
+                <span>Monthly EMI:</span>
+                <span id="monthlyEMI"></span>
+            </div>
+            <div class="result-item">
+                <span>Total Interest Payable:</span>
+                <span id="totalInterest"></span>
+            </div>
+            <div class="result-item">
+                <span>Total Payment (Principal + Interest):</span>
+                <span id="totalPayment"></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const principalInput = document.getElementById('principal');
+        const interestRateInput = document.getElementById('interestRate');
+        const tenureValueInput = document.getElementById('tenureValueInput');
+        const tenureTypeInput = document.getElementById('tenureType');
+
+        const principalRange = document.getElementById('principalRange');
+        const principalValueDisplay = document.getElementById('principalValue');
+        const interestRateRange = document.getElementById('interestRateRange');
+        const interestRateValueDisplay = document.getElementById('interestRateValue');
+        const tenureRange = document.getElementById('tenureRange');
+        const tenureDisplayValue = document.getElementById('tenureDisplayValue');
+
+        const errorMessageDiv = document.getElementById('errorMessage');
+        const resultContainer = document.getElementById('resultContainer');
+
+        // Sync number inputs with range sliders and vice-versa
+        function syncInputs() {
+            principalInput.addEventListener('input', () => {
+                principalRange.value = principalInput.value;
+                principalValueDisplay.textContent = `৳ ${parseFloat(principalInput.value || 0).toLocaleString('en-IN')}`;
+            });
+            principalRange.addEventListener('input', () => {
+                principalInput.value = principalRange.value;
+                principalValueDisplay.textContent = `৳ ${parseFloat(principalRange.value).toLocaleString('en-IN')}`;
+            });
+
+            interestRateInput.addEventListener('input', () => {
+                interestRateRange.value = interestRateInput.value;
+                interestRateValueDisplay.textContent = `${parseFloat(interestRateInput.value || 0).toFixed(1)} %`;
+            });
+            interestRateRange.addEventListener('input', () => {
+                interestRateInput.value = interestRateRange.value;
+                interestRateValueDisplay.textContent = `${parseFloat(interestRateRange.value).toFixed(1)} %`;
+            });
+
+            tenureValueInput.addEventListener('input', () => {
+                updateTenureRangeAndDisplay();
+            });
+            tenureRange.addEventListener('input', () => {
+                updateTenureInputFromRange();
+            });
+            tenureTypeInput.addEventListener('change', () => {
+                updateTenureRangeAndDisplay(true); // Force update range max
+            });
+
+            // Initial sync
+            principalValueDisplay.textContent = `৳ ${parseFloat(principalRange.value).toLocaleString('en-IN')}`;
+            interestRateValueDisplay.textContent = `${parseFloat(interestRateRange.value).toFixed(1)} %`;
+            principalInput.value = principalRange.value;
+            interestRateInput.value = interestRateRange.value;
+            tenureValueInput.value = tenureRange.value; // Initial tenure input value
+            updateTenureDisplay();
+        }
+
+        function updateTenureRangeAndDisplay(typeChanged = false) {
+            let tenureVal = parseInt(tenureValueInput.value || 1);
+            const tenureType = tenureTypeInput.value;
+
+            if (tenureType === "years") {
+                tenureRange.max = 30; // Max 30 years
+                if(typeChanged) tenureVal = Math.min(tenureVal, 30); // Adjust if switching from large month value
+            } else { // months
+                tenureRange.max = 360; // Max 30 years * 12 months
+                if(typeChanged) tenureVal = Math.min(tenureVal, 360);
+            }
+             if(typeChanged || parseInt(tenureRange.value) !== tenureVal){
+                tenureRange.value = tenureVal;
+            }
+            updateTenureDisplay();
+        }
+
+        function updateTenureInputFromRange() {
+            tenureValueInput.value = tenureRange.value;
+            updateTenureDisplay();
+        }
+
+        function updateTenureDisplay() {
+            const tenureVal = parseInt(tenureRange.value);
+            const tenureType = tenureTypeInput.value;
+            if (tenureType === "years") {
+                tenureDisplayValue.textContent = `${tenureVal} Year${tenureVal > 1 ? 's' : ''}`;
+            } else {
+                tenureDisplayValue.textContent = `${tenureVal} Month${tenureVal > 1 ? 's' : ''}`;
+            }
+        }
+
+
+        function validateInputs(principal, interestRate, tenureInMonths) {
+            errorMessageDiv.textContent = '';
+            let isValid = true;
+
+            if (isNaN(principal) || principal <= 0) {
+                errorMessageDiv.textContent = 'Please enter a valid loan amount.';
+                isValid = false;
+            } else if (isNaN(interestRate) || interestRate <= 0 || interestRate > 100) {
+                errorMessageDiv.textContent = 'Please enter a valid interest rate (1-100%).';
+                isValid = false;
+            } else if (isNaN(tenureInMonths) || tenureInMonths <= 0) {
+                errorMessageDiv.textContent = 'Please enter a valid loan tenure.';
+                isValid = false;
+            }
+
+            if (!isValid) {
+                resultContainer.style.display = 'none';
+            }
+            return isValid;
+        }
+
+        function calculateEMI() {
+            const principal = parseFloat(principalInput.value);
+            const annualInterestRate = parseFloat(interestRateInput.value);
+            let tenure = parseInt(tenureValueInput.value);
+            const tenureType = tenureTypeInput.value;
+
+            let tenureInMonths;
+            if (tenureType === 'years') {
+                tenureInMonths = tenure * 12;
+            } else {
+                tenureInMonths = tenure;
+            }
+
+            if (!validateInputs(principal, annualInterestRate, tenureInMonths)) {
+                return;
+            }
+
+            const monthlyInterestRate = annualInterestRate / (12 * 100);
+
+            // EMI = P * r * (1+r)^n / ((1+r)^n - 1)
+            const emi = (principal * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, tenureInMonths)) /
+                        (Math.pow(1 + monthlyInterestRate, tenureInMonths) - 1);
+
+            if (isNaN(emi) || !isFinite(emi)) {
+                 errorMessageDiv.textContent = 'Could not calculate EMI. Please check your inputs.';
+                 resultContainer.style.display = 'none';
+                 return;
+            }
+
+            const totalPayment = emi * tenureInMonths;
+            const totalInterest = totalPayment - principal;
+
+            document.getElementById('monthlyEMI').textContent = `৳ ${emi.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            document.getElementById('totalInterest').textContent = `৳ ${totalInterest.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            document.getElementById('totalPayment').textContent = `৳ ${totalPayment.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+            resultContainer.style.display = 'block';
+            resultContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Initialize input syncing
+        syncInputs();
+
+    </script>
+</body>
+</html>
