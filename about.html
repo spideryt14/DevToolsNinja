@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - DevToolsNinja</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --dark-bg: #121212;
+            --darker-bg: #0a0a0a;
+            --accent: #00d4ff;
+            --accent-light: #00f7ff;
+            --text: #f0f0f0;
+            --text-muted: #aaaaaa;
+            --card-bg: #1e1e1e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes gradientPulse {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: var(--darker-bg);
+            padding: 2rem 1rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .tagline {
+            color: var(--text-muted);
+            font-size: 1rem;
+            letter-spacing: 1px;
+            animation: fadeIn 0.8s ease-out 0.2s both;
+        }
+
+        main {
+            flex: 1;
+            padding: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .about-section {
+            animation: fadeIn 0.8s ease-out 0.4s both;
+        }
+
+        .about-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+        }
+
+        .about-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 3px;
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+            color: var(--text-muted);
+        }
+
+        .mission-statement {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text);
+            margin-bottom: 2rem;
+            padding-left: 1rem;
+            border-left: 3px solid var(--accent);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background-color: rgba(0, 212, 255, 0.05);
+            border-radius: 8px;
+            padding: 1.5rem;
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background-color: rgba(0, 212, 255, 0.1);
+            border-color: var(--accent);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            color: var(--text);
+        }
+
+        .cta-section {
+            text-align: center;
+            margin-top: 3rem;
+            animation: fadeIn 0.8s ease-out 0.6s both;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            color: #121212;
+            border: none;
+            padding: 14px 32px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 1.5rem;
+            background-size: 200% auto;
+            animation: gradientPulse 6s ease infinite;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .cta-button:active {
+            transform: translateY(0);
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            background-color: var(--darker-bg);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        @media (max-width: 768px) {
+            main {
+                padding: 1.5rem;
+            }
+
+            .about-card {
+                padding: 1.8rem;
+            }
+
+            .logo {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.6rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .mission-statement {
+                padding-left: 0.5rem;
+                font-size: 1rem;
+            }
+
+            .cta-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">DevToolsNinja</div>
+        <div class="tagline">Your Swiss Army Knife for Digital Productivity</div>
+    </header>
+
+    <main>
+        <section class="about-section">
+            <div class="about-card">
+                <h2>Our Mission</h2>
+                <p class="mission-statement">
+                    At DevToolsNinja, we believe everyone deserves access to powerful, easy-to-use tools that simplify daily tasks. 
+                    Our mission is to remove friction from your digital life by providing instant solutions to common problems - 
+                    all in one place, completely free.
+                </p>
+
+                <p>
+                    Whether you're a developer, designer, student, or just someone looking to streamline your online activities, 
+                    our carefully crafted tools help you work smarter, not harder.
+                </p>
+            </div>
+
+            <div class="about-card">
+                <h2>Why Choose DevToolsNinja?</h2>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3 class="feature-title">Instant Results</h3>
+                        <p>No signups, no waiting - just paste, click, and get immediate solutions to your problems.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <h3 class="feature-title">Privacy Focused</h3>
+                        <p>All processing happens in your browser. Your data never leaves your device.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3 class="feature-title">Always Accessible</h3>
+                        <p>Works perfectly on all devices - desktop, tablet, or mobile.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3 class="feature-title">Completely Free</h3>
+                        <p>No hidden costs, no premium tiers - every tool is 100% free to use.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-card">
+                <h2>Our Tools Make Life Easier</h2>
+                <p>
+                    From calculating your BMI to extracting text from images, removing backgrounds in one click, 
+                    or converting between units - DevToolsNinja handles the tedious tasks so you can focus on what matters.
+                </p>
+                <p>
+                    Students use our calculators for homework, developers rely on our converters during projects, 
+                    and professionals save hours with our productivity tools. Whatever your need, we've got you covered.
+                </p>
+            </div>
+
+            <div class="cta-section">
+                <h2>Ready to Boost Your Productivity?</h2>
+                <p>Explore our collection of free tools and discover how much time you can save today.</p>
+                <button class="cta-button" onclick="window.location.href='/'">
+                    <i class="fas fa-rocket"></i> Explore Tools
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 DevToolsNinja. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Add animation to feature cards on scroll
+        const featureCards = document.querySelectorAll('.feature-card');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = `fadeIn 0.6s ease-out ${index * 0.1}s both`;
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        featureCards.forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
