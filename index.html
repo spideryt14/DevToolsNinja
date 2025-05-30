@@ -150,7 +150,10 @@
             cursor: pointer;
             transition: var(--transition);
         }
-        
+        .search-box button i.fas {
+  font-size: 1rem;
+  display: inline-block !important; /* ফোর্সডি শো */
+}
         .search-box button:hover {
             background-color: var(--primary-light);
         }
@@ -907,6 +910,11 @@
   <i class="fas fa-search"></i>
   <span class="sr-only">Search</span> <!-- স্ক্রিন রিডারের জন্য -->
 </button>
+          <button aria-label="Search">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+  </svg>
+</button>
 
             <!-- Logo -->
             <a href="index.html" class="logo">
@@ -935,11 +943,13 @@
                 </ul>
             </nav>
 
-            <!-- Search -->
-            <div class="search-box">
-                <input type="text" placeholder="Search tools...">
-                <button><i class="fas fa-search"></i></button>
-            </div>
+           <div class="search-box">
+  <input type="text" placeholder="Search tools...">
+  <button aria-label="Search">
+  
+    <i class="fas fa-search"></i> 
+  </button>
+</div>
         </div>
     </div>
 </header>
