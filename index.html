@@ -36,7 +36,25 @@
             background-color: #f4f6ff;
             overflow-x: hidden;
         }
-        
+        /* স্ক্রিন রিডার টেক্সট লুকানোর জন্য */
+/* Ensure this is in your stylesheet */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* For the focus trap - ensure links are visible when focused */
+nav a:focus {
+    outline: 2px solid var(--primary);
+    outline-offset: 3px;
+}
         /* Smooth scroll behavior */
         html {
             scroll-behavior: smooth;
@@ -197,6 +215,31 @@
         nav ul li a:hover {
             color: var(--success);
         }   
+      /* === Suggestion Box Style === */
+.suggestion-list {
+    position: absolute;
+    background: white;
+    color: black;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    list-style: none;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    z-index: 1001;
+}
+
+.suggestion-list li {
+    padding: 0.6rem 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.suggestion-list li:hover {
+    background-color: var(--primary-light);
+    color: white;
+}
+
 
         
         /* Dropdown Menu */
@@ -879,9 +922,11 @@
    <header id="header">
     <div class="container">
         <div class="header-container">
-            <button class="nav-toggle" id="navToggle">
-                <i class="fas fa-bars"></i>
-            </button>
+          <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+  <i class="fas fa-bars"></i>
+  <span class="sr-only">Open menu</span>
+</button>
+
 
             <!-- Logo -->
             <a href="index.html" class="logo">
@@ -911,10 +956,16 @@
             </nav>
 
             <!-- Search -->
-            <div class="search-box">
-                <input type="text" placeholder="Search tools...">
-                <button><i class="fas fa-search"></i></button>
-            </div>
+           <div class="search-box">
+  <input type="text" id="searchInput" placeholder="Search tools..." autocomplete="off" />
+  <button aria-label="Search">
+    <i class="fas fa-search"></i>
+    <span class="sr-only">Search</span>
+  </button>
+  <ul id="suggestions" class="suggestion-list"></ul>
+</div>
+
+         
         </div>
     </div>
 </header>
@@ -1229,16 +1280,128 @@
     </footer>
 
     <script>
-        // Mobile Navigation Toggle
+    // Mobile Navigation Toggle with Enhanced Accessibility
+    document.addEventListener('DOMContentLoaded', function () {
         const navToggle = document.getElementById('navToggle');
         const mainNav = document.getElementById('mainNav');
-        
-        navToggle.addEventListener('click', () => {
-            mainNav.classList.toggle('active');
-            navToggle.innerHTML = mainNav.classList.contains('active') ? 
-                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
-        });
-        
-        // Header Scroll Effect
         const header = document.getElementById('header');
-        window.addEventListener('scroll', () =>
+
+        // Initialize ARIA attributes
+        navToggle.setAttribute('aria-expanded', 'false');
+        navToggle.setAttribute('aria-controls', 'mainNav');
+        navToggle.setAttribute('aria-label', 'Toggle navigation menu');
+
+        // Navigation Toggle Functionality
+        navToggle.addEventListener('click', function (e) {
+            e.stopPropagation();
+            const isExpanded = this.getAttribute('aria-expanded') === 'true';
+            mainNav.classList.toggle('active');
+            this.setAttribute('aria-expanded', String(!isExpanded));
+            this.innerHTML = isExpanded
+                ? `<i class="fas fa-bars"></i><span class="sr-only">Open menu</span>`
+                : `<i class="fas fa-times"></i><span class="sr-only">Close menu</span>`;
+        });
+
+        // Header Scroll Effect
+        window.addEventListener('scroll', function () {
+            header.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function (e) {
+            if (!navToggle.contains(e.target) && !mainNav.contains(e.target)) {
+                mainNav.classList.remove('active');
+                navToggle.setAttribute('aria-expanded', 'false');
+                navToggle.innerHTML = `
+                    <i class="fas fa-bars"></i>
+                    <span class="sr-only">Open menu</span>
+                `;
+            }
+        });
+
+        // Close menu on Escape key press
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && mainNav.classList.contains('active')) {
+                mainNav.classList.remove('active');
+                navToggle.setAttribute('aria-expanded', 'false');
+                navToggle.innerHTML = `
+                    <i class="fas fa-bars"></i>
+                    <span class="sr-only">Open menu</span>
+                `;
+                navToggle.focus();
+            }
+        });
+
+        // Trap focus within navigation when open
+        mainNav.addEventListener('keydown', function (e) {
+            if (e.key === 'Tab' && mainNav.classList.contains('active')) {
+                const focusableElements = mainNav.querySelectorAll(
+                    'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+                );
+
+                if (focusableElements.length === 0) return;
+
+                const firstElement = focusableElements[0];
+                const lastElement = focusableElements[focusableElements.length - 1];
+
+                if (e.shiftKey && document.activeElement === firstElement) {
+                    lastElement.focus();
+                    e.preventDefault();
+                } else if (!e.shiftKey && document.activeElement === lastElement) {
+                    firstElement.focus();
+                    e.preventDefault();
+                }
+            }
+        });
+
+        // ================================================
+        // 🔍 Live Search Suggestion Box Logic Starts Here
+        // ================================================
+
+        const tools = [
+            "Background Remover",
+            "Age Calculator",
+            "Image to Text",
+            "BMI Calculator",
+            "Unit Calculator",
+            "EMI Loan Calculator",
+            "Percentage Calculator",
+            "Image to PDF",
+            "QR Code Generator"
+        ];
+
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            const suggestionBox = document.createElement('ul');
+            suggestionBox.classList.add('suggestion-list');
+            searchInput.parentNode.appendChild(suggestionBox);
+
+            searchInput.addEventListener('input', function () {
+                const inputVal = this.value.toLowerCase();
+                suggestionBox.innerHTML = '';
+
+                if (inputVal.trim() !== '') {
+                    const filtered = tools.filter(tool => tool.toLowerCase().includes(inputVal));
+                    filtered.forEach(tool => {
+                        const li = document.createElement('li');
+                        li.textContent = tool;
+                        li.addEventListener('click', () => {
+                            searchInput.value = tool;
+                            suggestionBox.innerHTML = '';
+
+                            // 👉 Redirect logic if needed:
+                            // window.location.href = `/tools/${tool.toLowerCase().replace(/\s+/g, '-')}.html`;
+                        });
+                        suggestionBox.appendChild(li);
+                    });
+                }
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!searchInput.contains(e.target) && !suggestionBox.contains(e.target)) {
+                    suggestionBox.innerHTML = '';
+                }
+            });
+        }
+    });
+</script>
