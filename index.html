@@ -286,100 +286,93 @@
         }
         
         .btn {
-    display: inline-block;
-    background-color: var(--primary);
-    color: white;
-    padding: 0.9rem 2rem;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.4s ease-in-out; /* Softened transition */
-    border: none;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    animation: fadeInUp 1s ease-out 0.4s forwards; /* [cite: 53] */
-    opacity: 0; /* [cite: 54] */
-    box-shadow: 0 0 0 rgba(67, 97, 238, 0); /* Initial state for glow */
-}
-
-.btn::before {
-    content: ''; /* [cite: 55] */
-    position: absolute; /* [cite: 55] */
-    top: 0; /* [cite: 55] */
-    left: -100%; /* [cite: 55] */
-    width: 100%; /* [cite: 55] */
-    height: 100%; /* [cite: 55] */
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); /* [cite: 55] */
-    transition: 0.5s; /* [cite: 56] */
-}
-
-.btn:hover::before {
-    left: 100%; /* [cite: 57] */
-}
-
-.btn:hover {
-    background-color: var(--primary-light); /* [cite: 58] */
-    transform: translateY(-3px); /* [cite: 58] */
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2), 0 0 20px rgba(67, 97, 238, 0.7); /* Added glow effect */
-}
-
-.btn-accent {
-    background-color: var(--success); /* [cite: 59] */
-    margin-left: 1rem; /* [cite: 59] */
-}
-
-.btn-accent:hover {
-    background-color: #3aa8d8; /* [cite: 60] */
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2), 0 0 20px rgba(76, 201, 240, 0.7); /* Accent button glow */
-}
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.9rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 1s ease-out 0.4s forwards;
+            opacity: 0;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .btn-accent {
+            background-color: var(--success);
+            margin-left: 1rem;
+        }
+        
+        .btn-accent:hover {
+            background-color: #3aa8d8;
+        }
         
         /* Tools Section */
-.section {
-    padding: 6rem 0;
-    position: relative;
-}
-
-.section-title {
-    text-align: center;
-    margin-bottom: 4rem;
-}
-
-.section-title h2 {
-    font-size: 2.5rem;
-    color: var(--dark);
-    position: relative;
-    display: inline-block;
-    padding-bottom: 1rem;
-    /* Added for smoother font rendering */
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-.section-title h2::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 4px;
-    background: linear-gradient(90deg, var(--primary), var(--success));
-    border-radius: 2px;
-}
-
-.section-title p {
-    color: #444; /* Darkened from #666 for better contrast */
-    max-width: 700px;
-    margin: 1rem auto 0;
-}
+        .section {
+            padding: 6rem 0;
+            position: relative;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 1rem;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--success));
+            border-radius: 2px;
+        }
+        
+        .section-title p {
+            color: #666;
+            max-width: 700px;
+            margin: 1rem auto 0;
+        }
         
         .tools-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* আগে 300px ছিল */
-    gap: 1.5rem; /* Increased from 1rem for more breathing room */
-}
+    gap: 1rem; /* আগে ছিল 2rem */
 }
 
 .tool-card {
@@ -645,154 +638,241 @@
             font-size: 0.9rem;
         }
         
-       /* Animations */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes float {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-10px);
-    }
-}
-
-/* Smooth Fade Animation (Bonus) */
-@keyframes fadeInEffect {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-.fade-in {
-    animation: fadeInEffect 0.8s ease-out forwards;
-    opacity: 0; /* Ensure element is initially hidden before animation starts */
-}
-
-/* Optional: Add delays for staggered effects */
-.fade-in.delay-1 { animation-delay: 0.1s; }
-.fade-in.delay-2 { animation-delay: 0.2s; }
-.fade-in.delay-3 { animation-delay: 0.3s; }
-.fade-in.delay-4 { animation-delay: 0.4s; }
-.fade-in.delay-5 { animation-delay: 0.5s; }
-/* Add more .delay-N classes as needed up to .delay-5 to match your existing animations if desired */
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
         
         /* Responsive Styles */
-        @media (max-width: 992px) {
-            .category-item {
-                width: calc(25% - 1.5rem);
-            }
-            
-            .hero h1 {
-                font-size: 2.8rem;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .header-container {
-                flex-wrap: wrap;
-            }
-            
-            .nav-toggle {
-                display: block;
-                order: 1;
-            }
-            
-            .logo {
-                order: 2;
-                flex: 1;
-                text-align: center;
-            }
-            
-            .user-actions {
-                order: 3;
-            }
-            
-            nav {
-                width: 100%;
-                order: 4;
-                margin-top: 1rem;
-                display: none;
-            }
-            
-            nav.active {
-                display: block;
-            }
-            
-            nav ul {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-            
-            nav ul li {
-                margin: 0;
-            }
-            
-            .search-box {
-                width: 100%;
-                margin: 1rem 0;
-                order: 5;
-            }
-            
-            .hero {
-                padding: 8rem 0 4rem;
-            }
-            
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-            
-            .category-item {
-                width: calc(33.33% - 1.5rem);
-            }
-            
-            .newsletter-form {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .newsletter-form input,
-            .newsletter-form button {
-                border-radius: 50px;
-                width: 100%;
-            }
-        }
-        
-        @media (max-width: 576px) {
-            .hero h1 {
-                font-size: 1.8rem;
-            }
-            
-            .tools-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .category-item {
-                width: calc(50% - 1.5rem);
-            }
-            
-            .btn-group {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .btn {
-                width: 100%;
-                margin: 0 !important;
-            }
-        }
+@media (max-width: 992px) {
+    .category-item {
+        width: calc(25% - 1.5rem);
+        min-width: 180px; /* Prevent items from getting too narrow */
+    }
+    
+    .hero h1 {
+        font-size: 2.5rem; /* Slightly reduced from 2.8rem */
+        line-height: 1.2;
+    }
+    
+    .hero {
+        padding: 9rem 0 5rem; /* Adjusted padding */
+    }
+    
+    .tools-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* More flexible grid */
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Header and Navigation */
+    .header-container {
+        flex-wrap: wrap;
+        padding: 0.8rem 0; /* Added padding */
+    }
+    
+    .nav-toggle {
+        display: block;
+        order: 1;
+        font-size: 1.8rem; /* Larger tap target */
+        padding: 0.5rem;
+    }
+    
+    .logo {
+        order: 2;
+        flex: 1;
+        text-align: center;
+        font-size: 1.6rem; /* Adjusted size */
+    }
+    
+    .user-actions {
+        order: 3;
+        display: flex;
+        align-items: center;
+    }
+    
+    nav {
+        width: 100%;
+        order: 4;
+        margin-top: 1rem;
+        display: none;
+        background: rgba(26, 26, 46, 0.95); /* Better mobile menu background */
+        padding: 1rem 0;
+        border-radius: 8px;
+    }
+    
+    nav.active {
+        display: block;
+        animation: fadeIn 0.3s ease-out;
+    }
+    
+    nav ul {
+        flex-direction: column;
+        gap: 0.8rem; /* Increased gap */
+        padding: 0 1rem;
+    }
+    
+    nav ul li {
+        margin: 0;
+    }
+    
+    nav ul li a {
+        padding: 0.8rem 1rem; /* Better tap targets */
+        display: block;
+    }
+    
+    /* Search Box */
+    .search-box {
+        width: 100%;
+        margin: 1rem 0;
+        order: 5;
+    }
+    
+    /* Hero Section */
+    .hero {
+        padding: 7rem 0 4rem; /* Adjusted padding */
+    }
+    
+    .hero h1 {
+        font-size: 2rem; /* Slightly reduced from 2.2rem */
+        margin-bottom: 1.2rem;
+    }
+    
+    .hero p {
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+    }
+    
+    /* Category Items */
+    .category-item {
+        width: calc(50% - 1rem); /* Changed from 33.33% to 50% */
+        min-width: 160px;
+        padding: 1.5rem 1rem;
+    }
+    
+    /* Newsletter Form */
+    .newsletter-form {
+        flex-direction: column;
+        gap: 1rem;
+        max-width: 100%; /* Full width on mobile */
+    }
+    
+    .newsletter-form input,
+    .newsletter-form button {
+        border-radius: 50px;
+        width: 100%;
+        padding: 0.9rem 1.5rem; /* Better touch targets */
+    }
+    
+    /* Tools Grid */
+    .tools-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 1.2rem;
+    }
+    
+    .tool-card {
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 576px) {
+    /* Base Styles */
+    body {
+        font-size: 15px; /* Base font size adjustment */
+    }
+    
+    .container {
+        width: 94%; /* Slightly more padding */
+    }
+    
+    /* Hero Section */
+    .hero {
+        padding: 6rem 0 3rem;
+    }
+    
+    .hero h1 {
+        font-size: 1.7rem; /* Adjusted from 1.8rem */
+        line-height: 1.3;
+    }
+    
+    .hero p {
+        font-size: 1rem;
+        margin-bottom: 1.8rem;
+    }
+    
+    /* Tools Grid */
+    .tools-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .tool-card-img {
+        height: 140px; /* Consistent image height */
+    }
+    
+    /* Category Items */
+    .category-item {
+        width: 100%; /* Full width on smallest screens */
+        min-width: auto;
+        padding: 1.2rem;
+    }
+    
+    .category-icon {
+        font-size: 2rem; /* Adjusted icon size */
+    }
+    
+    /* Buttons */
+    .btn-group {
+        flex-direction: column;
+        gap: 1rem;
+        width: 100%;
+    }
+    
+    .btn {
+        width: 100%;
+        margin: 0 !important;
+        padding: 0.9rem;
+        font-size: 1rem; /* Readable font size */
+    }
+    
+    /* Header Adjustments */
+    .logo {
+        font-size: 1.4rem;
+    }
+    
+    .nav-toggle {
+        font-size: 1.6rem;
+    }
+    
+    /* Footer */
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+}
+
+/* Animation for mobile menu */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
     </style>
 </head>
 <body>
