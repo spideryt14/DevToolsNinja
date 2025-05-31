@@ -121,45 +121,136 @@ nav a:focus {
             cursor: pointer;
         }
         
-        .search-box {
-            display: flex;
-            width: 40%;
-            max-width: 400px;
-            transition: var(--transition);
-        }
-        
-        .search-box input {
-            width: 100%;
-            padding: 0.6rem 1rem;
-            border: none;
-            border-radius: 50px 0 0 50px;
-            background: rgba(255,255,255,0.1);
-            color: white;
-            transition: var(--transition);
-        }
-        
-        .search-box input:focus {
-            outline: none;
-            background: rgba(255,255,255,0.2);
-        }
-        
-        .search-box input::placeholder {
-            color: rgba(255,255,255,0.7);
-        }
-        
-        .search-box button {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 0 1.2rem;
-            border-radius: 0 50px 50px 0;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .search-box button:hover {
-            background-color: var(--primary-light);
-        }
+        /* Enhanced Search Box with Suggestions */
+.search-box {
+    position: relative;
+    display: flex;
+    width: 40%;
+    max-width: 400px;
+    transition: var(--transition);
+    z-index: 100;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 0.8rem 1.2rem; /* Slightly larger padding */
+    border: none;
+    border-radius: 50px 0 0 50px;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    transition: var(--transition);
+    font-size: 0.95rem;
+    backdrop-filter: blur(5px);
+}
+
+.search-box input:focus {
+    outline: none;
+    background: rgba(255,255,255,0.2);
+    box-shadow: 0 0 0 2px var(--primary-light);
+}
+
+.search-box input::placeholder {
+    color: rgba(255,255,255,0.7);
+    transition: opacity 0.3s ease;
+}
+
+.search-box input:focus::placeholder {
+    opacity: 0.5;
+}
+
+.search-box button {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 0 1.5rem; /* Increased padding */
+    border-radius: 0 50px 50px 0;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-box button:hover {
+    background-color: var(--primary-light);
+    transform: scale(1.05);
+}
+
+/* Suggestions Dropdown */
+.search-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(26, 26, 46, 0.95); /* Matching your dark theme */
+    backdrop-filter: blur(10px);
+    border-radius: 0 0 15px 15px;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    z-index: 99;
+}
+
+.search-box:focus-within .search-suggestions,
+.search-suggestions.show {
+    max-height: 300px;
+    opacity: 1;
+    padding: 0.5rem 0;
+}
+
+.suggestion-item {
+    padding: 0.8rem 1.5rem;
+    color: rgba(255,255,255,0.9);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+.suggestion-item:hover {
+    background: rgba(67, 97, 238, 0.3); /* Primary color with opacity */
+    color: white;
+}
+
+.suggestion-item i {
+    margin-right: 10px;
+    color: var(--primary-light);
+    width: 20px;
+    text-align: center;
+}
+
+.suggestion-item .highlight {
+    color: var(--success);
+    font-weight: 500;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .search-box {
+        width: 100%;
+        margin: 1rem 0;
+    }
+    
+    .search-box input {
+        padding: 0.7rem 1rem;
+    }
+    
+    .search-suggestions {
+        border-radius: 0 0 10px 10px;
+    }
+}
+
+/* Loading Animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.search-loading .fa-search {
+    animation: spin 1s linear infinite;
+}
         
         .user-actions a {
             color: white;
@@ -925,7 +1016,6 @@ nav a:focus {
           <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
   <i class="fas fa-bars"></i>
   <span class="sr-only">Open menu</span>
-            </div>
 </button>
 
 
@@ -958,7 +1048,7 @@ nav a:focus {
 
             <!-- Search -->
            <div class="search-box">
-  <input type="text" id="searchInput" placeholder="Search tools..." autocomplete="off">
+  <input type="text" id="searchInput" placeholder="Search tools..." autocomplete="off" />
   <button aria-label="Search">
     <i class="fas fa-search"></i>
     <span class="sr-only">Search</span>
@@ -991,9 +1081,9 @@ nav a:focus {
                 <h2>Popular Tools</h2>
                 <p>Our most frequently used tools by developers worldwide</p>
             </div>
-            <div></div> class="tools-grid">
+            <div class="tools-grid">
 
-          
+                
                 <!-- Tool Card 1 -->
 <div class="tool-card">
   <a href="background-remover.html" class="tool-card-link">
@@ -1121,7 +1211,7 @@ nav a:focus {
 </div>
 <!-- Tool Card 9 -->
 <div class="tool-card">
-    <a href="qr-code-generator.html">
+    <a href="qr-code generator.html">
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwj478awyc2l3b9ZNut7xTULFYufrSM1mdKQ&s" alt="Percentage Calculator" class="tool-card-img">
     </a>
     <div class="tool-info">
@@ -1129,7 +1219,7 @@ nav a:focus {
         <p>Generate custom QR codes for URLs, text, or contact info instantly. Fast, easy, and completely free!</p>
         <div class="tool-meta">
             <span class="tool-rating"><i class="fas fa-star"></i> 4.7 (2.1k)</span>
-            <a href="qr-code-generator.html" class="btn tool-btn">Use Tool</a>
+            <a href="qr-code generator.html" class="btn tool-btn">Use Tool</a>
         </div>
     </div>
 </div>
@@ -1143,9 +1233,7 @@ nav a:focus {
                 <h2>Featured Tools</h2>
                 <p>Check out our newest and most powerful additions</p>
             </div>
-          </div>
             <div class="tools-grid">
-              </div>
                 <!-- Featured Tool 1 -->
                 <div class="tool-card">
                     <img src="https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Video Compressor" class="tool-card-img">
@@ -1408,3 +1496,4 @@ nav a:focus {
         }
     });
 </script>
+          
