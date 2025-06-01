@@ -1301,17 +1301,45 @@ nav a:focus {
         </div>
     </section>
 
-    <!-- Newsletter Section -->
-    <section class="newsletter">
-        <div class="container">
-            <h3>Stay Updated</h3>
-            <p>Subscribe to our newsletter to get notified about new tools and features</p>
-            <form class="newsletter-form">
-                <input type="email" placeholder="Your email address" required>
-                <button type="submit">Subscribe <i class="fas fa-paper-plane"></i></button>
-            </form>
-        </div>
-    </section>
+  <!-- Newsletter Section -->
+<section class="newsletter">
+  <div class="container">
+    <h3>Stay Updated</h3>
+    <p>Subscribe to our newsletter to get notified about new tools and features</p>
+    
+    <form class="newsletter-form" id="subscribeForm">
+      <input type="email" id="email" placeholder="Your email address" required />
+      <button type="submit">Subscribe <i class="fas fa-paper-plane"></i></button>
+    </form>
+    
+    <p id="responseMsg" style="margin-top: 10px;"></p>
+  </div>
+</section>
+
+<script>
+  document.getElementById("subscribeForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = document.getElementById("email").value;
+    
+    try {
+      const res = await fetch("https://devtoolsninja-backend.onrender.com/api/subscribe", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email })
+      });
+
+      const data = await res.json();
+      document.getElementById("responseMsg").innerText = data.message || data.error;
+      document.getElementById("responseMsg").style.color = data.message ? "green" : "red";
+    } catch (err) {
+      document.getElementById("responseMsg").innerText = "Something went wrong.";
+      document.getElementById("responseMsg").style.color = "red";
+    }
+  });
+</script>
+
 
     <!-- Footer -->
     <footer>
