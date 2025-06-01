@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy | DevToolsNinja</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --dark: #1a1a2e;
+            --darker: #16213e;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--dark), var(--darker));
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Particle Animation Background */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInDown 1s ease;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, #4cc9f0, var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .last-updated {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .intro {
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .policy-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .policy-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .section-icon i {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            margin: 1.5rem 0 0.5rem;
+            color: #b8c2cc;
+        }
+
+        p, ul {
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        ul {
+            padding-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight {
+            background: rgba(67, 97, 238, 0.2);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .contact-info {
+            display: flex;
+            align-items: center;
+            margin-top: 1rem;
+        }
+
+        .contact-icon {
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding: 2rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .final-notes {
+            background: rgba(67, 97, 238, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin: 3rem 0;
+        }
+
+        .emoji {
+            font-size: 1.2rem;
+            margin-right: 0.3rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .policy-section {
+            animation: fadeInUp 0.8s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+        }
+
+        /* Delay animations for each section */
+        .policy-section:nth-child(1) { animation-delay: 0.2s; }
+        .policy-section:nth-child(2) { animation-delay: 0.4s; }
+        .policy-section:nth-child(3) { animation-delay: 0.6s; }
+        .policy-section:nth-child(4) { animation-delay: 0.8s; }
+        .policy-section:nth-child(5) { animation-delay: 1s; }
+        .policy-section:nth-child(6) { animation-delay: 1.2s; }
+        .policy-section:nth-child(7) { animation-delay: 1.4s; }
+        .policy-section:nth-child(8) { animation-delay: 1.6s; }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .policy-section {
+                padding: 1.5rem;
+            }
+            
+            .section-icon {
+                width: 40px;
+                height: 40px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div id="particles-js"></div>
+    
+    <div class="container">
+        <header>
+            <div class="logo">DevToolsNinja</div>
+            <h1>Privacy Policy</h1>
+            <div class="last-updated">Last Updated: [Insert Date]</div>
+        </header>
+        
+        <p class="intro">
+            Welcome to <span class="highlight">DevToolsNinja</span> ("we," "us," or "our"). We are committed to protecting your privacy and ensuring transparency about how we handle your data. This Privacy Policy explains what information we collect, how we use it, and your rights regarding your personal data when you use our free online tools.
+        </p>
+        
+        <div class="policy-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-database"></i>
+                </div>
+                <h2>1. Information We Collect</h2>
+            </div>
+            
+            <h3>a. Personal Information</h3>
+            <ul>
+                <li><strong>Voluntary Data:</strong> If you contact us via email or feedback forms, we may collect your name, email address, and message.</li>
+                <li><strong>Automatically Collected Data:</strong> When you visit our website, we may log:
+                    <ul>
+                        <li>IP address</li>
+                        <li>Browser type & version</li>
+                        <li>Pages visited & time spent</li>
+                        <li>Referring website</li>
+                    </ul>
+                </li>
+            </ul>
+            
+            <h3>b. Non-Personal Information</h3>
+            <ul>
+                <li>Cookies & analytics data (see Section 3).</li>
+                <li>Usage data related to our tools (e.g., file uploads for conversions, which are processed but <strong>not stored</strong> permanently).</li>
+            </ul>
+        </div>
+        
+        <div class="policy-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-cogs"></i>
+                </div>
+                <h2>2. How We Use Information</h2>
+            </div>
+            
+            <p>We use collected data for:</p>
+            <ul>
+                <li>Providing & improving our tools.</li>
+                <li>Analyzing website traffic & user behavior.</li>
+                <li>Responding to user inquiries.</li>
+                <li>Preventing fraud & enhancing security.</li>
+            </ul>
+            
+            <p><strong>We do not sell, rent, or share your personal data with third parties for marketing purposes.</strong></p>
+        </div>
+        
+        <div class="policy-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-cookie-bite"></i>
+                </div>
+                <h2>3. Cookies & Tracking Technologies</h2>
+            </div>
+            
+            <p>We use cookies to:</p>
+            <ul>
+                <li>Enhance user experience.</li>
+                <li>Analyze site performance (Google Analytics).</li>
+                <li>Remember preferences (e.g., language settings).</li>
+            </ul>
+            
+            <p>You can disable cookies via browser settings, but some features may not work properly.</p>
+        </div>
+        
+        <div class="policy-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h2>4. Data Security</h2>
+            </div>
+            
+            <p>We implement industry-standard security measures, including:</p>
+            <ul>
+                <li>Encryption (SSL/TLS).</li>
+                <li>Regular security audits.</li>
+                <li>Limited data retention (files are deleted after processing).</li>
+            </ul>
+            
+            <p>However, no online service is 100% secure—use our tools at your own risk.</p>
+        </div>
+        
+        <div class="policy-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-child"></i>
+                </div>
+                <h2>5. Children's Privacy</h2>
+            </div>
+            
+            <p>Our services are <strong>not intended for children under 13</strong>. We do not knowingly collect data from minors. If you believe a child has provided us with personal information, please contact us immediately.</p>
+        </div>
+        
+        <div class="policy-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-external-link-alt"></i>
+                </div>
+                <h2>6. Third-Party Services</h2>
+            </div>
+            
+            <p>We may use third-party services (e.g., hosting, analytics) that have their own privacy policies. Examples:</p>
+            <ul>
+                <li><strong>Google Analytics</strong> (traffic analysis).</li>
+                <li><strong>Cloudflare</strong> (security & performance).</li>
+            </ul>
+        </div>
+        
+        <div class="policy-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-sync-alt"></i>
+                </div>
+                <h2>7. Policy Changes</h2>
+            </div>
+            
+            <p>We may update this policy periodically. Changes will be posted here with a new "Last Updated" date. Continued use of <span class="highlight">DevToolsNinja</span> constitutes acceptance of the revised policy.</p>
+        </div>
+        
+        <div class="policy-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <h2>8. Contact Information</h2>
+            </div>
+            
+            <p>For privacy-related questions or requests, contact us at:</p>
+            <div class="contact-info">
+                <span class="contact-icon">📧</span> <strong>Email:</strong> [Your Contact Email]
+            </div>
+            <div class="contact-info">
+                <span class="contact-icon">🌐</span> <strong>Website:</strong> [Your Website Contact Page]
+            </div>
+        </div>
+        
+        <div class="final-notes">
+            <h3>Final Notes</h3>
+            <ul>
+                <li><span class="emoji">🔒</span> <strong>No Account Needed:</strong> Our tools work without requiring sign-ups.</li>
+                <li><span class="emoji">🗂️</span> <strong>File Handling:</strong> Uploaded files (images, videos, etc.) are <strong>processed instantly and deleted automatically</strong>.</li>
+            </ul>
+        </div>
+        
+        <footer>
+            <p>Thank you for trusting <span class="highlight">DevToolsNinja</span>! <span class="emoji">🚀</span></p>
+        </footer>
+    </div>
+
+    <!-- Particles.js for the animated background -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Initialize particles.js
+        document.addEventListener('DOMContentLoaded', function() {
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": {
+                        "value": 80,
+                        "density": {
+                            "enable": true,
+                            "value_area": 800
+                        }
+                    },
+                    "color": {
+                        "value": "#ffffff"
+                    },
+                    "shape": {
+                        "type": "circle",
+                        "stroke": {
+                            "width": 0,
+                            "color": "#000000"
+                        },
+                        "polygon": {
+                            "nb_sides": 5
+                        }
+                    },
+                    "opacity": {
+                        "value": 0.5,
+                        "random": false,
+                        "anim": {
+                            "enable": false,
+                            "speed": 1,
+                            "opacity_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "size": {
+                        "value": 3,
+                        "random": true,
+                        "anim": {
+                            "enable": false,
+                            "speed": 40,
+                            "size_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "line_linked": {
+                        "enable": true,
+                        "distance": 150,
+                        "color": "#ffffff",
+                        "opacity": 0.4,
+                        "width": 1
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 2,
+                        "direction": "none",
+                        "random": false,
+                        "straight": false,
+                        "out_mode": "out",
+                        "bounce": false,
+                        "attract": {
+                            "enable": false,
+                            "rotateX": 600,
+                            "rotateY": 1200
+                        }
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": {
+                            "enable": true,
+                            "mode": "grab"
+                        },
+                        "onclick": {
+                            "enable": true,
+                            "mode": "push"
+                        },
+                        "resize": true
+                    },
+                    "modes": {
+                        "grab": {
+                            "distance": 140,
+                            "line_linked": {
+                                "opacity": 1
+                            }
+                        },
+                        "bubble": {
+                            "distance": 400,
+                            "size": 40,
+                            "duration": 2,
+                            "opacity": 8,
+                            "speed": 3
+                        },
+                        "repulse": {
+                            "distance": 200,
+                            "duration": 0.4
+                        },
+                        "push": {
+                            "particles_nb": 4
+                        },
+                        "remove": {
+                            "particles_nb": 2
+                        }
+                    }
+                },
+                "retina_detect": true
+            });
+        });
+    </script>
+</body>
+</html>
