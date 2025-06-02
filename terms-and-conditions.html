@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms & Conditions | DevToolsNinja</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --dark: #2d3436;
+            --light: #f5f6fa;
+            --accent: #fd79a8;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+            margin: 0;
+            padding: 0;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(166, 177, 225, 0.1) 0%, rgba(166, 177, 225, 0.05) 90%),
+                radial-gradient(circle at 90% 80%, rgba(253, 121, 168, 0.1) 0%, rgba(253, 121, 168, 0.05) 90%);
+            background-attachment: fixed;
+        }
+        
+        .particles-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        
+        h1 {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+        
+        h2 {
+            color: var(--primary);
+            font-weight: 500;
+            margin-top: 2rem;
+            position: relative;
+            padding-left: 1rem;
+        }
+        
+        h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 60%;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        ul {
+            padding-left: 1.2rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+        
+        li::before {
+            content: '•';
+            color: var(--accent);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, rgba(108, 92, 231, 0.1), rgba(253, 121, 168, 0.1));
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated background particles (would need JavaScript implementation) -->
+    <!-- <div class="particles-bg" id="particles-js"></div> -->
+    
+    <div class="container">
+        <header>
+            <h1>Terms & Conditions</h1>
+            <p>Last Updated: <span class="highlight">June 2024</span></p>
+        </header>
+        
+        <div class="section">
+            <h2>1. Acceptance of Terms</h2>
+            <p>By using <span class="highlight">DevToolsNinja</span>, you acknowledge that you have read, understood, and agreed to these Terms, along with our <a href="#" style="color: var(--primary); text-decoration: none; font-weight: 500;">Privacy Policy</a>. These Terms constitute a legally binding agreement between you and DevToolsNinja.</p>
+        </div>
+        
+        <div class="section">
+            <h2>2. Services Offered</h2>
+            <p>DevToolsNinja provides free online tools for general use. We reserve the right to:</p>
+            <ul>
+                <li>Modify, suspend, or discontinue any tool without notice.</li>
+                <li>Introduce new features or remove existing ones at our discretion.</li>
+            </ul>
+            <p>All tools are provided <span class="highlight">"as-is"</span> without warranties of any kind.</p>
+        </div>
+        
+        <div class="section">
+            <h2>3. User Responsibilities</h2>
+            <p>You agree to:</p>
+            <ul>
+                <li>Use the Services lawfully and ethically.</li>
+                <li>Not misuse our tools for illegal, harmful, or fraudulent activities.</li>
+                <li>Not attempt to disrupt, hack, or overload our servers.</li>
+                <li>Respect third-party content linked from our website.</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>4. Third-Party Links & Services</h2>
+            <p>Our website may contain links to external websites. <span class="highlight">DevToolsNinja is not responsible</span> for:</p>
+            <ul>
+                <li>The content, accuracy, or practices of third-party sites.</li>
+                <li>Any damages or losses from using external links.</li>
+            </ul>
+            <p>We recommend reviewing the terms and privacy policies of any third-party sites you visit.</p>
+        </div>
+        
+        <div class="section">
+            <h2>5. Intellectual Property</h2>
+            <p>All content, logos, and trademarks on DevToolsNinja are owned by us or licensed for use. You may not:</p>
+            <ul>
+                <li>Copy, redistribute, or sell our tools without permission.</li>
+                <li>Reverse-engineer or extract source code from our tools.</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>6. Limitation of Liability</h2>
+            <p>DevToolsNinja provides tools for <span class="highlight">general informational purposes only</span>. We are <span class="highlight">not liable</span> for:</p>
+            <ul>
+                <li>Any direct, indirect, or consequential damages from tool usage.</li>
+                <li>Errors, inaccuracies, or interruptions in service.</li>
+                <li>Data loss or security breaches (though we strive for security).</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>7. Changes to Terms</h2>
+            <p>We may update these Terms periodically. The latest version will always be posted here with the <span class="highlight">"Last Updated"</span> date. Continued use of DevToolsNinja after changes implies acceptance.</p>
+        </div>
+        
+        <div class="section">
+            <h2>8. Governing Law</h2>
+            <p>These Terms are governed by the laws of <span class="highlight">[Your Country/State]</span>. Any disputes shall be resolved in the courts of <span class="highlight">[Your Jurisdiction]</span>.</p>
+        </div>
+        
+        <div class="section">
+            <h2>9. Contact Us</h2>
+            <p>For questions regarding these Terms, please contact us at:</p>
+            <ul>
+                <li>📧 <a href="mailto:contact@devtoolsninja.com" style="color: var(--primary); text-decoration: none;">contact@devtoolsninja.com</a></li>
+                <li>🌐 <a href="/contact" style="color: var(--primary); text-decoration: none;">Contact Page</a></li>
+            </ul>
+        </div>
+        
+        <footer>
+            <p>© 2024 DevToolsNinja. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Optional: Add particle.js for animated background -->
+    <!-- <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', 'particles.json', function() {
+            console.log('Particles loaded!');
+        });
+    </script> -->
+</body>
+</html>
