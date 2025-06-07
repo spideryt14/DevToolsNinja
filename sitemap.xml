@@ -57,12 +57,7 @@
     </url>
     
     <!-- Example blog posts (if applicable) -->
-    <url>
-        <loc>https://devtoolsninja.site/blog/how-to-use-json-formatter</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>yearly</changefreq>
-        <priority>0.6</priority>
-    </url>
+  
     
     <!-- About Page -->
     <url>
