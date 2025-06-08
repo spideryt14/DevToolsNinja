@@ -3,8 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Background Remover | DevToolsNinja</title>
+    <title>Free Background Remover Tool - Remove Image Background Online | DevToolsNinja</title>
+    <meta name="description" content="Learn how to use the best background remover tool for free. Remove image backgrounds online in seconds with DevToolsNinja's powerful AI tool.">
+    <meta name="keywords" content="free background remover, remove image background online, best background remover tool, DevToolsNinja background remover, how to use background remover, photo editing tool, transparent background maker">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="Free Background Remover Tool - Remove Image Background Online | DevToolsNinja">
+    <meta property="og:description" content="Remove image backgrounds online in seconds with DevToolsNinja's powerful AI tool. No skills required - completely free!">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://devtoolsninja.com/background-remover">
+    <meta property="og:image" content="https://devtoolsninja.com/images/background-remover-social.jpg">
+    <meta property="og:site_name" content="DevToolsNinja">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Background Remover Tool - Remove Image Background Online">
+    <meta name="twitter:description" content="Remove image backgrounds online in seconds with DevToolsNinja's powerful AI tool.">
+    <meta name="twitter:image" content="https://devtoolsninja.com/images/background-remover-social.jpg">
+    
     <style>
+        /* Styles from tools.html */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
         
         :root {
@@ -415,6 +433,231 @@
                 width: 100%;
             }
         }
+
+        /* Styles from about.html */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+        
+        .about-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border-radius: 12px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            animation: slideUp 0.6s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .about-container h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .about-container h1:after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #3498db, #9b59b6);
+            border-radius: 2px;
+        }
+        
+        h2 {
+            color: #3498db;
+            font-size: 1.8rem;
+            margin-top: 40px;
+            margin-bottom: 15px;
+        }
+        
+        h3 {
+            color: #2c3e50;
+            font-size: 1.4rem;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+        }
+        
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .highlight-box {
+            background-color: inherit;
+            border-left: 4px solid #3498db;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+            transition: transform 0.3s ease;
+        }
+        
+        .highlight-box:hover {
+            transform: translateX(5px);
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(90deg, #3498db, #9b59b6);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(52, 152, 219);
+            .3s ease;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+        }
+        
+        .tool-image {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin: 20px 0;
+            transition: margin-top 0.3s ease;
+        }
+        
+        .tool-image:hover {
+            transform: scale(1.02);
+        }
+        
+        .keyword {
+            font-weight: 600;
+            color: #3498db;
+        }
+        
+        .conclusion {
+            text-align: center;
+            padding: 30px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            margin-top: 40px;
+        }
+        
+        /* FAQ Styles */
+        .faq-item {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+        
+        .faq-question {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+        
+        /* Comparison Table Styles */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+        }
+        
+        .comparison-table th, 
+        .comparison-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1em solid #ddd;
+        }
+        
+        .comparison-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .feature-present {
+            color: #27ae60;
+            font-weight: 600;
+        }
+        
+        .feature-absent {
+            color: #e74c3c;
+        }
+        
+        /* Testimonials */
+        .testimonials {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .testimonial {
+            flex: 1 1 300px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            position: relative;
+        }
+        
+        .testimonial:before {
+            content: """;
+            font-size: 60px;
+            color: #3498db;
+            opacity: 0.1;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+        
+        .testimonial-author {
+            font-weight: 600;
+            margin-top: 15px;
+            color: #2c3e50;
+        }
+        
+        .testimonial-role {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        
+        @media (max-width: 768px) {
+            .about-container {
+                padding: 20px;
+                margin-top: 15px;
+            }
+            
+            .about-container h1 {
+                font-size: 2rem;
+            }
+            
+            .comparison-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
     </style>
 </head>
 <body>
@@ -457,8 +700,266 @@
         </div>
     </div>
     
+    <!-- About section from about.html -->
+    <main class="about-container">
+        <article>
+            <header>
+                <h1>The Ultimate Guide to Using a <span class="keyword">Free Background Remover</span> Tool</h1>
+                
+                <img src="https://via.placeholder.com/800x450?text=Background+Remover+Tool+Interface" alt="DevToolsNinja Background Remover Tool" class="tool-image">
+                
+                <p>In today's visually-driven digital landscape, having clean, professional-looking images is more important than ever. Whether you're a blogger, marketer, designer, or student, the ability to <span class="keyword">remove image background online</span> quickly and easily can save you hours of work and elevate your content.</p>
+                
+                <p>That's where <span class="keyword">DevToolsNinja Background Remover</span> comes in - our powerful yet simple-to-use tool helps you create perfect transparent backgrounds in seconds, with no technical skills required.</p>
+            </header>
+            
+            <section>
+                <div class="highlight-box">
+                    <p><strong>Did you know?</strong> Product images with transparent backgrounds convert 30% better than those with busy backgrounds. A <span class="keyword">best background remover tool</span> like ours can give your e-commerce business a real boost!</p>
+                </div>
+                
+                <h2>1. Why Background Removal Matters in 2024</h2>
+                
+                <p>Removing backgrounds from images has become an essential skill in numerous fields:</p>
+                
+                <ul>
+                    <li><strong>E-commerce:</strong> Create clean product images that stand out on any background</li>
+                    <li><strong>Social Media Marketing:</strong> Design eye-catching posts and ads without distracting backgrounds</li>
+                    <li><strong>Graphic Design:</strong> Speed up your workflow when creating composites or mockups</li>
+                    <li><strong>Education:</strong> Students can create professional presentations and projects</li>
+                    <li><strong>Personal Branding:</strong> Branding for perfect profile pictures for LinkedIn or personal use</li>
+                </ul>
+                
+                <p>With our <span class="keyword">free background remover</span>, you don't need expensive software or design skills to achieve professional results.</p>
+            </section>
+            
+            <section>
+                <h2>2. How to Use Our Background Remover Tool</h2>
+                
+                <p>Wondering <span class="keyword">how to use background remover</span> tools effectively? Here's our simple step-by-step guide:</p>
+                
+                <h3>Step 1: Upload Your Image</h3>
+                
+                <p>Simply drag and drop your image file (JPG, PNG, or WEBP) into the upload area or click to browse your files. Our tool works with:</p>
+                
+                <ul>
+                    <li>Product photos</li>
+                    <li>Portraits and people</li>
+                    <li>Logos and graphics</li>
+                    <li>Screenshots and illustrations</li>
+                </ul>
+                
+                <h3>Step 2: Automatic Background Removal</h3>
+                
+                <p>Our advanced AI analyzes your image and removes the background instantly. You'll see results in seconds, with:</p>
+                
+                <ul>
+                    <li>Precise edge detection</li>
+                    <li>Clean cutouts of complex objects</li>
+                    <li>Preserved fine details (like hair or fur)</li>
+                </ul>
+                
+                <h3>Step 3: Refine and Download</h3>
+                
+                <p>Use our easy editing tools to:</p>
+                
+                <ul>
+                    <li>Touch up any areas that need adjustment</li>
+                    <li>Add a new solid color background if needed</li>
+                    <li>Download in PNG format with transparency</li>
+                </ul>
+                
+                <img src="https://via.placeholder.com/800x450?text=Before+and+After+Background+Removal" alt="Remove Image Background Online - Before and After" class="tool-image">
+            </section>
+            
+            <section>
+                <h2>3. Top Use Cases for Background Removal</h2>
+                
+                <p>Here are some real-world scenarios where our <span class="keyword">best background remover tool</span> shines:</p>
+                
+                <h3>E-commerce Product Listings</h3>
+                
+                <p>Create uniform product images that look professional on any marketplace or your own store. Remove distracting backgrounds to make products pop.</p>
+                
+                <h3>Social Media Content Creation</h3>
+                
+                <p>Design eye-catching posts by isolating subjects and placing them on branded backgrounds or creative compositions.</p>
+                
+                <h3>Professional Headshots</h3>
+                
+                <p>Remove busy backgrounds from portraits for LinkedIn, company websites, or professional portfolios.</p>
+                
+                <h3>Marketing Materials</h3>
+                
+                <p>Create clean ads, brochures, and flyers by combining multiple images with transparent backgrounds.</p>
+                
+                <h3>Educational Projects</h3>
+                
+                <p>Students can create professional-looking presentations and reports without expensive software.</p>
+                
+                <div class="highlight-box">
+                    <p><strong>Pro Tip:</strong> Save your images with transparent backgrounds as PNG files to maintain quality when using them in different designs.</p>
+                </div>
+            </section>
+            
+            <section>
+                <h2>4. Tips & Best Practices for Best Results</h2>
+                
+                <p>Get the most out of our <span class="keyword">DevToolsNinja Background Remover</span> with these expert tips:</p>
+                
+                <h3>Image Quality Matters</h3>
+                
+                <p>Start with the highest quality image possible for the cleanest results. Blurry or low-resolution images may not process as cleanly.</p>
+                
+                <h3>Good Contrast Helps</h3>
+                
+                <p>Images where the subject clearly contrasts with the background will yield the best automatic results.</p>
+                
+                <h3>Use the Manual Touch-Up Tools</h3>
+                
+                <p>For tricky areas (like wispy hair or complex edges), use our built-in brush tools to refine the selection.</p>
+                
+                <h3>Try Different Backgrounds</h3>
+                
+                <p>After removing the original background, experiment with different colored backgrounds to see what works best for your needs.</p>
+                
+                <h3>Batch Process Multiple Images</h3>
+                
+                <p>Need to process several product images? Our tool supports batch processing to save you time.</p>
+            </section>
+            
+            <section>
+                <h2>5. Why Choose DevToolsNinja's Background Remover?</h2>
+                
+                <p>Here's what makes our tool the <span class="keyword">best background remover tool</span> available:</p>
+                
+                <ul>
+                    <li><strong>Completely free</strong> with no watermarks or hidden costs</li>
+                    <li><strong>No registration required</strong> - start using it immediately</li>
+                    <li><strong>Military-grade privacy</strong> - we don't store your images</li>
+                    <li><strong>Lightning fast processing</strong> - results in seconds</li>
+                    <li><strong>Works on all devices</strong> - no software installation needed</li>
+                    <li><strong>Precision AI technology</strong> for professional-grade results</li>
+                </ul>
+            </section>
+            
+            <section>
+                <h2>Comparison: DevToolsNinja vs Other Background Removers</h2>
+                
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>DevToolsNinja</th>
+                            <th>Tool A</th>
+                            <th>Tool B</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Free to use</td>
+                            <td class="feature-present">Yes</td>
+                            <td class="feature-absent">No</td>
+                            <td class="feature-present">Yes (with limits)</td>
+                        </tr>
+                        <tr>
+                            <td>No watermarks</td>
+                            <td class="feature-present">Yes</td>
+                            <td class="feature-absent">No</td>
+                            <td class="feature-absent">No</td>
+                        </tr>
+                        <tr>
+                            <td>No registration</td>
+                            <td class="feature-present">Yes</td>
+                            <td class="feature-absent">No</td>
+                            <td class="feature-present">Yes</td>
+                        </tr>
+                        <tr>
+                            <td>Batch processing</td>
+                            <td class="feature-present">Yes</td>
+                            <td class="feature-absent">No</td>
+                            <td class="feature-absent">No</td>
+                        </tr>
+                        <tr>
+                            <td>High-res downloads</td>
+                            <td class="feature-present">Yes</td>
+                            <td class="feature-present">Yes</td>
+                            <td class="feature-absent">No</td>
+                        </tr>
+                        <tr>
+                            <td>AI-powered</td>
+                            <td class="feature-present">Yes</td>
+                            <td class="feature-present">Yes</td>
+                            <td class="feature-absent">No</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+            
+            <section>
+                <h2>User Testimonials</h2>
+                
+                <div class="testimonials">
+                    <div class="testimonial">
+                        <p>"This is hands down the best free background remover I've found. As an Etsy seller, it saves me hours of work on product photos every week."</p>
+                        <div class="testimonial-author">Sarah K.</div>
+                        <div class="testimonial-role">E-commerce Entrepreneur</div>
+                    </div>
+                    
+                    <div class="testimonial">
+                        <p>"I use DevToolsNinja's tool for all my social media graphics. The results are professional quality with zero learning curve."</p>
+                        <div class="testimonial-author">Michael T.</div>
+                        <div class="testimonial-role">Social Media Manager</div>
+                    </div>
+                    
+                    <div class="testimonial">
+                        <p>"For a free tool, the accuracy is incredible. It handles complex edges like hair better than some paid tools I've used."</p>
+                        <div class="testimonial-author">Jennifer L.</div>
+                        <div class="testimonial-role">Graphic Designer</div>
+                    </div>
+                </div>
+            </section>
+            
+            <section>
+                <h2>Frequently Asked Questions</h2>
+                
+                <div class="faq-item">
+                    <div class="faq-question">Is the DevToolsNinja Background Remover really free?</div>
+                    <p>Yes! Our tool is completely free to use with no hidden costs or watermarks. You can process as many images as you need without paying anything.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">What image formats does the tool support?</div>
+                    <p>We support all common image formats including JPG, PNG, and WEBP. Output is always delivered as PNG to preserve transparency.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">How does the tool handle complex edges like hair?</div>
+                    <p>Our advanced AI specializes in detecting fine details. For best results with hair or fur, use our manual touch-up tools to refine the automatic selection.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">Is there a limit to how many images I can process?</div>
+                    <p>No, there are no limits! Unlike many other free tools, we don't restrict the number of images you can process.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">What happens to my images after processing?</div>
+                    <p>We prioritize your privacy. Images are processed in your browser and never stored on our servers after you close the page.</p>
+                </div>
+            </section>
+            
+            <section class="conclusion">
+                <h2>Ready to Transform Your Images?</h2>
+                <p>Now that you know <span class="keyword">how to use background remover</span> tools effectively, why not try ours? It's the easiest way to <span class="keyword">remove image background online</span> with professional results.</p>
+                <a href="#try-now" class="cta-button">Try Our Free Background Remover Now</a>
+                <p>Have feedback or questions? We'd love to hear about your experience with our <span class="keyword">DevToolsNinja Background Remover</span>!</p>
+            </section>
+        </article>
+    </main>
+    
     <footer>
-        <p>&copy; <span id="currentYear"></span> DevToolsNinja Background Remover</p>
+        <p>© <span id="currentYear"></span> DevToolsNinja Background Remover. All rights reserved.</p>
     </footer>
 
     <script>
@@ -662,6 +1163,88 @@
         window.onload = function() {
             createParticles();
         };
+    </script>
+
+    <!-- Structured Data Markup from about.html -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is the DevToolsNinja Background Remover really free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! Our tool is completely free to use with no hidden costs or watermarks. You can process as many images as you need without paying anything."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What image formats does the tool support?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We support all common image formats including JPG, PNG, and WEBP. Output is always delivered as PNG to preserve transparency."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the tool handle complex edges like hair?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Our advanced AI specializes in detecting fine details. For best results with hair or fur, use our manual touch-up tools to refine the automatic selection."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is there a limit to how many images I can process?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No, there are no limits! Unlike many other free tools, we don't restrict the number of images you can process."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens to my images after processing?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We prioritize your privacy. Images are processed in your browser and never stored on our servers after you close the page."
+          }
+        }
+      ]
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to use DevToolsNinja Background Remover Tool",
+      "description": "Step-by-step guide to removing image backgrounds online for free",
+      "totalTime": "PT2M",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "text": "Upload your image by dragging and dropping or clicking to browse your files",
+          "name": "Upload Image"
+        },
+        {
+          "@type": "HowToStep",
+          "text": "Our AI will automatically remove the background in seconds",
+          "name": "Automatic Processing"
+        },
+        {
+          "@type": "HowToStep",
+          "text": "Use our editing tools to refine the selection if needed",
+          "name": "Refine Selection"
+        },
+        {
+          "@type": "HowToStep",
+          "text": "Download your image with transparent background in PNG format",
+          "name": "Download Result"
+        }
+      ]
+    }
     </script>
 </body>
 </html>
