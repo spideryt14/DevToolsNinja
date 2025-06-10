@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevTools Ninja</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root {
+            --primary-color: #6c5ce7;
+            --secondary-color: #f8f9fa;
+            --dark-color: #2d3436;
+            --light-color: #ffffff;
+            --accent-color: #fd79a8;
+            --success-color: #00b894;
+            --warning-color: #fdcb6e;
+            --info-color: #0984e3;
+            --gradient: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: var(--dark-color);
+            background-color: var(--secondary-color);
+        }
+        
+        header {
+            background-color: var(--light-color);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            animation: fadeInDown 0.8s;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+            position: relative;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 0.5rem 0;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary-color);
+        }
+        
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background: var(--gradient);
+            transition: width 0.3s ease;
+        }
+        
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+        
+        .hero {
+            background: var(--gradient);
+            color: var(--light-color);
+            padding: 6rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==');
+            opacity: 0.3;
+        }
+        
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            animation: fadeInUp 0.8s 0.2s both;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            position: relative;
+            animation: fadeInUp 0.8s 0.4s both;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--light-color);
+            color: var(--primary-color);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 0.8s 0.6s both;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            color: var(--primary-color);
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            mix-blend-mode: overlay;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .btn:hover::after {
+            opacity: 0.2;
+        }
+        
+        .tools-section {
+            padding: 5rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.3rem;
+            color: var(--dark-color);
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 4px;
+            background: var(--gradient);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        
+        .section-title p {
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .tool-card {
+            background-color: var(--light-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s forwards;
+        }
+        
+        .tool-card:nth-child(1) { animation-delay: 0.1s; }
+        .tool-card:nth-child(2) { animation-delay: 0.2s; }
+        .tool-card:nth-child(3) { animation-delay: 0.3s; }
+        .tool-card:nth-child(4) { animation-delay: 0.4s; }
+        .tool-card:nth-child(5) { animation-delay: 0.5s; }
+        .tool-card:nth-child(6) { animation-delay: 0.6s; }
+        
+        .tool-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient);
+        }
+        
+        .tool-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .tool-card:hover img {
+            transform: scale(1.05);
+        }
+        
+        .tool-info {
+            padding: 1.8rem;
+        }
+        
+        .tool-info h3 {
+            margin-top: 0;
+            margin-bottom: 0.8rem;
+            color: var(--dark-color);
+            font-size: 1.4rem;
+        }
+        
+        .tool-info p {
+            color: #666;
+            margin-bottom: 1.8rem;
+            line-height: 1.7;
+        }
+        
+        .tool-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-bottom: 1.8rem;
+        }
+        
+        .tag {
+            background-color: #e9ecef;
+            color: #495057;
+            padding: 0.4rem 0.9rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .tag:hover {
+            background: var(--gradient);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .tool-link {
+            display: inline-flex;
+            align-items: center;
+            background: var(--gradient);
+            color: var(--light-color);
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+        }
+        
+        .tool-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.4);
+        }
+        
+        .tool-link i {
+            margin-left: 0.5rem;
+            transition: transform 0.3s;
+        }
+        
+        .tool-link:hover i {
+            transform: translateX(3px);
+        }
+        
+        .about-section {
+            background-color: var(--light-color);
+            padding: 5rem 0;
+            position: relative;
+        }
+        
+        .about-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgxMDgsIDkyLCAyMzEsIDAuMDMpIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3BhdHRlcm4pIi8+PC9zdmc+');
+            opacity: 0.5;
+        }
+        
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+        }
+        
+        .about-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 2rem;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            background: white;
+            padding: 1.5rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            min-width: 150px;
+            transition: all 0.3s;
+        }
+        
+        .stat-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: var(--light-color);
+            padding: 3rem 0 1.5rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+        
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .footer-links a {
+            color: var(--light-color);
+            text-decoration: none;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .footer-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: var(--gradient);
+            transition: width 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        .footer-links a:hover::after {
+            width: 100%;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .social-link:hover {
+            background: var(--gradient);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            margin-top: 2rem;
+        }
+        
+        /* Floating animation for decorative elements */
+        .floating {
+            animation: floating 6s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        /* Pulse animation for CTA */
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(253, 121, 168, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(253, 121, 168, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(253, 121, 168, 0); }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+            }
+            
+            nav ul {
+                margin-top: 1rem;
+            }
+            
+            nav ul li {
+                margin-left: 1rem;
+                margin-right: 1rem;
+            }
+            
+            .stats {
+                flex-direction: column;
+                align-items: center;
+                gap: 1.5rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <a href="#" class="logo">DevTools Ninja </a>
+            <nav>
+ <li><a href="index.html">Home</a></li>
+                <ul><li><a href="blog.html">Blog</a></li>
+                      <li><a href="#tools">Tools</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="container">
+            <h1 class="animate__animated animate__fadeInUp">Essential Tools for Web Developers</h1>
+            <p class="animate__animated animate__fadeInUp">Discover a curated collection of powerful tools to streamline your web development workflow and boost productivity.</p>
+            <a href="#tools" class="btn animate__animated animate__fadeInUp pulse">Explore Tools <i class="fas fa-arrow-down"></i></a>
+        </div>
+    </section>
+    
+    <section id="tools" class="tools-section">
+        <div class="container">
+            <div class="section-title">
+                <h2 class="animate__animated animate__fadeIn">Video Tools</h2>
+                <p class="animate__animated animate__fadeIn">Handpicked selection of the most useful web development tools</p>
+            </div>
+            
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Code Editor">
+                    <div class="tool-info">
+                        <h3>VS Code</h3>
+                        <p>A lightweight but powerful source code editor with built-in Git support and extensions marketplace.</p>
+                        <div class="tool-tags">
+                            <span class="tag">Editor</span>
+                            <span class="tag">IDE</span>
+                            <span class="tag">Free</span>
+                        </div>
+                        <a href="https://code.visualstudio.com/" class="tool-link" target="_blank">Visit Tool <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <img src="https://images.unsplash.com/photo-1621839673705-6617adf9e890?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="CSS Generator">
+                    <div class="tool-info">
+                        <h3>CSS Grid Generator</h3>
+                        <p>Visual tool for creating CSS grid layouts with an interactive interface.</p>
+                        <div class="tool-tags">
+                            <span class="tag">CSS</span>
+                            <span class="tag">Layout</span>
+                            <span class="tag">Generator</span>
+                        </div>
+                        <a href="https://cssgrid-generator.netlify.app/" class="tool-link" target="_blank">Visit Tool <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <img src="https://images.unsplash.com/photo-1493612276216-ee3925520721?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Color Palette">
+                    <div class="tool-info">
+                        <h3>Coolors</h3>
+                        <p>The super fast color schemes generator for creative people.</p>
+                        <div class="tool-tags">
+                            <span class="tag">Colors</span>
+                            <span class="tag">Design</span>
+                            <span class="tag">Palette</span>
+                        </div>
+                        <a href="https://coolors.co/" class="tool-link" target="_blank">Visit Tool <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="API Testing">
+                    <div class="tool-info">
+                        <h3>Postman</h3>
+                        <p>API platform for building and using APIs with collaboration features.</p>
+                        <div class="tool-tags">
+                            <span class="tag">API</span>
+                            <span class="tag">Testing</span>
+                            <span class="tag">Development</span>
+                        </div>
+                        <a href="https://www.postman.com/" class="tool-link" target="_blank">Visit Tool <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Performance">
+                    <div class="tool-info">
+                        <h3>Lighthouse</h3>
+                        <p>Open-source, automated tool for improving the quality of web pages.</p>
+                        <div class="tool-tags">
+                            <span class="tag">Performance</span>
+                            <span class="tag">SEO</span>
+                            <span class="tag">Audit</span>
+                        </div>
+                        <a href="https://developers.google.com/web/tools/lighthouse" class="tool-link" target="_blank">Visit Tool <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Responsive">
+                    <div class="tool-info">
+                        <h3>Responsively</h3>
+                        <p>A modified browser that helps in responsive web development.</p>
+                        <div class="tool-tags">
+                            <span class="tag">Responsive</span>
+                            <span class="tag">Testing</span>
+                            <span class="tag">Design</span>
+                        </div>
+                        <a href="https://responsively.app/" class="tool-link" target="_blank">Visit Tool <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="section-title">
+                <h2 class="animate__animated animate__fadeIn">About WebDev Tools</h2>
+                <p class="animate__animated animate__fadeIn">Our mission is to help developers find the best tools for their workflow</p>
+            </div>
+            
+            <div class="about-content">
+                <p class="animate__animated animate__fadeIn" data-delay="0.2s">DevTools Ninja is a curated directory of the most useful tools for web developers. We test and review each tool to ensure they meet our quality standards before featuring them on our platform.</p>
+                <p class="animate__animated animate__fadeIn" data-delay="0.4s">Our team consists of experienced developers who understand the challenges of modern web development and want to make it easier for others to find the right tools for their projects.</p>
+                
+                <div class="stats">
+                    <div class="stat-item animate__animated animate__fadeInUp" data-delay="0.2s">
+                        <div class="stat-number">150+</div>
+                        <div class="stat-label">Tools</div>
+                    </div>
+                    <div class="stat-item animate__animated animate__fadeInUp" data-delay="0.4s">
+                        <div class="stat-number">10K+</div>
+                        <div class="stat-label">Users</div>
+                    </div>
+                    <div class="stat-item animate__animated animate__fadeInUp" data-delay="0.6s">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Support</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">WebDev Tools</div>
+                <div class="footer-links">
+                     <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                    <a href="#tools">Tools</a>
+                    <li><a href="contact.html">Contact</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                </div>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/Shrabon1447" target="_blank">
+        <i class="fab fa-facebook"></i>
+    </a>
+    <a href="https://www.instagram.com/shra_bon99/" target="_blank">
+        <i class="fab fa-instagram"></i>
+    </a>
+    <a href="https://www.linkedin.com/in/mosharof-hossain-978515220/" target="_blank">
+        <i class="fab fa-linkedin"></i>
+    </a>
+    <a href="https://github.com/spideryt14" target="_blank">
+        <i class="fab fa-github"></i>
+    </a>
+                </div>
+                <p class="copyright">© 2025 WebDev Tools. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Intersection Observer for scroll animations
+        const animateOnScroll = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const element = entry.target;
+                    const animation = element.getAttribute('data-animation');
+                    const delay = element.getAttribute('data-delay') || '0s';
+                    
+                    element.style.animationDelay = delay;
+                    element.classList.add('animate__animated', `animate__${animation}`);
+                    
+                    // Unobserve after animation
+                    animateOnScroll.unobserve(element);
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        
+        // Observe all elements with data-animation attribute
+        document.querySelectorAll('[data-animation]').forEach(el => {
+            animateOnScroll.observe(el);
+        });
+        
+        // Simple scroll to top button
+        window.addEventListener('scroll', () => {
+            const scrollBtn = document.querySelector('.scroll-top');
+            if (window.pageYOffset > 300) {
+                scrollBtn?.classList.add('show');
+            } else {
+                scrollBtn?.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>
